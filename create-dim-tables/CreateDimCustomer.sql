@@ -26,6 +26,8 @@ CREATE TABLE dbo.DimCustomer(
 	, HomeOwnerIndicatior nvarchar(15)
 	, NumberCarsOwned int
 	, CommuteDistance nvarchar(25)
+	, DateCreated date
+	, DateModified date
 	, CONSTRAINT PK_DimCustomer_CustomerID PRIMARY KEY CLUSTERED (CustomerID ASC)
 	, CONSTRAINT FK_DimCustomer_GeographyID FOREIGN KEY (GeographyID) REFERENCES MAU_AdventureWorks2022_DW.dbo.DimGeography (GeographyID)
 )
@@ -53,6 +55,8 @@ SELECT
 	, HomeOwnerIndicator = vcd.HomeOwnerIndicator
 	, NumberCarsOwned = vcd.NumberCarsOwned
 	, CommuteDistance = vcd.CommuteDistance
+	, DateCreated = GETDATE()
+	, DateModified	= GETDATE()
 FROM AdventureWorks2022.Sales.Customer sc
 INNER JOIN AdventureWorks2022.Person.Person pp ON pp.BusinessEntityID = sc.PersonID
 INNER JOIN AdventureWorks2022.Person.EmailAddress pea ON pea.BusinessEntityID = sc.PersonID
