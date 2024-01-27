@@ -5,7 +5,8 @@ CREATE VIEW Sales.vStoreDemographics AS
 -- Use XMNLNAMESPACES to extract data from XML column - Demographics
 WITH XMLNAMESPACES ('http://schemas.microsoft.com/sqlserver/2004/07/adventure-works/StoreSurvey' AS ns)
 SELECT 
-	StoreName = ss.[Name]
+	ss.BusinessEntityID
+	, StoreName = ss.[Name]
 	, AnnualSales = t.value('(./ns:AnnualSales)[1]', 'int')
 	, AnnualRevenue = t.value('(./ns:AnnualRevenue)[1]', 'int')
 	, BankName = t.value('(./ns:BankName)[1]', 'nvarchar(50)')
