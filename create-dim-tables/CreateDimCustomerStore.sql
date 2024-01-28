@@ -5,9 +5,9 @@ DROP TABLE IF EXISTS dbo.DimCustomerStore
 
 -- Create DimCustomerStore Table
 CREATE TABLE dbo.DimCustomerStore(
-	StoreID int IDENTITY(1,1) -- Autoincrementing surrogate key
-	, SalesTerritoryID int NOT NULL -- Foreign key to DimSalesTerritory table
-	, SalesPersonID int NOT NULL  -- Foreign key to DimSalesPerson table
+	StoreUniqueID int IDENTITY(1,1) -- Autoincrementing surrogate key
+	, SalesTerritoryUniqueID int NOT NULL -- Foreign key to DimSalesTerritory table
+	, SalesPersonUniqueID int NOT NULL  -- Foreign key to DimSalesPerson table
 	, StoreName dbo.NameType
 	, AnnualSales int NOT NULL
 	, AnnualRevenue int NOT NULL
@@ -21,18 +21,18 @@ CREATE TABLE dbo.DimCustomerStore(
 	, NumberEmployees int
 	, DateCreated date
 	, DateModified date
-	, CONSTRAINT PK_DimCustomerStore_StoreID PRIMARY KEY CLUSTERED (StoreID ASC)
-	, CONSTRAINT FK_DimCustomerStore_DimSalesTerritory FOREIGN KEY (SalesTerritoryID)
-		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesTerritory(SalesTerritoryID)
-	, CONSTRAINT FK_DimCustomerStore_DimSalesPerson FOREIGN KEY (SalesPersonID)
-		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesPerson(SalesPersonID)
+	, CONSTRAINT PK_DimCustomerStore_StoreID PRIMARY KEY CLUSTERED (StoreUniqueID ASC)
+	, CONSTRAINT FK_DimCustomerStore_DimSalesTerritory FOREIGN KEY (SalesTerritoryUniqueID)
+		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesTerritory(SalesTerritoryUniqueID)
+	, CONSTRAINT FK_DimCustomerStore_DimSalesPerson FOREIGN KEY (SalesPersonUniqueID)
+		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesPerson(SalesPersonUniqueID)
 )
 
 
 -- Populate DimCustomerStore Table with data from OLTP database
 INSERT INTO dbo.DimCustomerStore
-SELECT DISTINCT dst.SalesTerritoryID
-	, dsp.SalesPersonID
+SELECT DISTINCT dst.SalesTerritoryUniqueID
+	, dsp.SalesPersonUniqueID
 	, StoreName = ss.[Name]
 	, AnnualSales = vsd.AnnualSales
 	, AnnualRevenue = vsd.AnnualRevenue 
@@ -60,5 +60,6 @@ WHERE sc.StoreID IS NOT NULL
 
 
 -- Show sample data
+
 SELECT TOP(10) * FROM dbo.DimCustomerStore
 

@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS dbo. DimProduct
 
 -- Create DimProduct Table
 CREATE TABLE dbo.DimProduct (
-	ProductID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
+	ProductUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, ProductCode nvarchar(25) NOT NULL -- Operational Product Key
 	, SalelabeIndicator nvarchar(15) NOT NULL -- 1 = Saleable , 0 = Not Saleable
 	, Color nvarchar(15) -- nvarchar(15)
@@ -30,7 +30,7 @@ CREATE TABLE dbo.DimProduct (
 	, SellEndDate date
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL
-	, CONSTRAINT PK_DimProduct_ProductID PRIMARY KEY CLUSTERED (ProductID ASC)
+	, CONSTRAINT PK_DimProduct_ProductID PRIMARY KEY CLUSTERED (ProductUniqueID ASC)
 	, CONSTRAINT CK_DimProduct_ProductLineCode CHECK (
 		ProductLineCode IN ('R', 'M', 'T', 'S') OR 
 		ProductLineCode IS NULL
@@ -63,7 +63,7 @@ CREATE TABLE dbo.DimProduct (
 -- Populate DimProduct with values
 INSERT INTO dbo.DimProduct
 SELECT
---	ProductID int IDENTITY (1,1) NOT NULL 
+--	ProductUniqueID int IDENTITY (1,1) NOT NULL 
 	ProductCode = pp.ProductNumber
 	, SalelabeIndicator = CASE WHEN pp.FinishedGoodsFlag = 0 THEN 'Not Saleable'
 						  WHEN pp.FinishedGoodsFlag = 1 THEN 'Saleable'
