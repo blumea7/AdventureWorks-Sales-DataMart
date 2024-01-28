@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS dbo.DimSalesPerson
 -- Create SalesPereson dimension table
 
 CREATE TABLE dbo.DimSalesPerson(
-	SalesPersonID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
+	SalesPersonUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, FirstName dbo.NameType 
 	, MiddleName dbo.NameType 
 	, LastName dbo.NameType 
@@ -23,7 +23,7 @@ CREATE TABLE dbo.DimSalesPerson(
 	, CommissionPct float NOT NULL
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL
-	, CONSTRAINT PK_DimSalesPerson_SalesPersonID PRIMARY KEY CLUSTERED (SalesPersonID ASC)
+	, CONSTRAINT PK_DimSalesPerson_SalesPersonID PRIMARY KEY CLUSTERED (SalesPersonUniqueID ASC)
 	, CONSTRAINT CK_DimSalesPerson_GenderCode CHECK (GenderCode IN ('F', 'M'))
 	, CONSTRAINT CK_DimSalesPerson_Gender CHECK (Gender IN ('Female', 'Male'))
 	, CONSTRAINT CK_DimSalesPerson_SalesQuota CHECK(SalesQuota >= 0.00)
@@ -38,7 +38,7 @@ ALTER TABLE dbo.DimSalesPerson ADD CONSTRAINT DF_DimSalesPerson_CommissionPct DE
 
 INSERT INTO dbo.DimSalesPerson
 SELECT 
-	-- SalesPersonID int IDENTITY (1,1)
+	-- SalesPersonUniqueID int IDENTITY (1,1)
 	FirstName = pp.FirstName
 	, MiddleName = pp.MiddleName
 	, LastName = pp.LastName
