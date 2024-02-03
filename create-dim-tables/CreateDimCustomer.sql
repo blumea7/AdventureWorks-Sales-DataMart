@@ -23,19 +23,21 @@ CREATE TABLE dbo.DimCustomer(
 	, NumberChildrenAtHome int
 	, Education nvarchar(25)
 	, Occupation nvarchar(25)
-	, HomeOwnerIndicatior nvarchar(15)
+	, HomeOwnerIndicator nvarchar(15)
 	, NumberCarsOwned int
 	, CommuteDistance nvarchar(25)
-	, DateCreated date
-	, DateModified date
+	, DateCreated date NOT NULL
+	, DateModified date NOT NULL
 	, CONSTRAINT PK_DimCustomer_CustomerID PRIMARY KEY CLUSTERED (CustomerUniqueID ASC)
 )
 
+-- Populate Dimcustomer Table
+INSERT INTO MAU_AdventureWorks2022_DW.dbo.DimCustomer
 SELECT 
 	DISTINCT
 	-- CustomerID
 	AccountNumber = sc.AccountNumber
-	, GeographyUniqueID = ddg.GeographyUniqueID
+	, GeographyUniqueID = ddg.GeographyUniqueID 
 	, FirstName = pp.FirstName
 	, MiddleName = pp.MiddleName
 	, LastName = pp.LastName
@@ -71,3 +73,7 @@ INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimGeography ddg
 	)
 INNER JOIN AdventureWorks2022.Person.vCustomerDemographics vcd ON vcd.BusinessEntityID = sc.PersonID
 WHERE PersonID IS NOT NULL
+	AND  bea.AddressTypeID = 2 -- using home address for address details of each customer
+
+-- View Data
+SELECT TOP(10) * FROM MAU_AdventureWorks2022_DW.dbo.DimCustomer
