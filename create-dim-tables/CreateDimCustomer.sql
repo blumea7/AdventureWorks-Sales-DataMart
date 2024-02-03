@@ -19,6 +19,7 @@ CREATE TABLE dbo.DimCustomer(
 	, MaritalStatus nchar(1) NOT NULL
 	, YearlyIncome nvarchar(50)
 	, GenderCode nchar(1) NOT NULL
+	, Gender nvarchar(10) NOT NULL
 	, TotalChildren int
 	, NumberChildrenAtHome int
 	, Education nvarchar(25)
@@ -49,6 +50,7 @@ SELECT
 	, MaritalStatus = vcd.MaritalStatus
 	, YearlyIncome = vcd.YearlyIncome
 	, GenderCode = vcd.GenderCode
+	, Gender = vcd.Gender
 	, TotalChildren = vcd.TotalChildren
 	, NumberChildrenAtHome = vcd.NumberChildrenAtHome
 	, Education = vcd.Education
