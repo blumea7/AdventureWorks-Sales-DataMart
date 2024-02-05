@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS dbo.DimCurrency
 -- Create DimCurrency Table
 CREATE TABLE dbo.DimCurrency (
 	CurrencyUniqueID int IDENTITY(1,1) -- Autoincrementing Surrogate Key
-	, CurrencyCode nchar(3) UNIQUE NOT NULL
+	, CurrencyCode nchar(3) NOT NULL
 	, Currency dbo.NameType
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL

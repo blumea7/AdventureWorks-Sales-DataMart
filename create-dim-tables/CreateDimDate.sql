@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS dbo.DimDate
 -- Create Date Dimension Table
 CREATE TABLE dbo.DimDate (
 	DateKey int -- 20230101
-	, [Date] date UNIQUE NOT NULL -- 2023-01-01
+	, [Date] date NOT NULL -- 2023-01-01
 	, [Year] int NOT NULL -- 2023
 	, YearHalfID char(6) NOT NULL -- 2023H1
 	, YearHalf int NOT NULL -- 1 or 2

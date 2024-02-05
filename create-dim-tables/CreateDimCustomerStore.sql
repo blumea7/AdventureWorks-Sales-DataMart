@@ -22,10 +22,6 @@ CREATE TABLE dbo.DimCustomerStore(
 	, DateCreated date
 	, DateModified date
 	, CONSTRAINT PK_DimCustomerStore_StoreID PRIMARY KEY CLUSTERED (StoreUniqueID ASC)
-	, CONSTRAINT FK_DimCustomerStore_DimSalesTerritory FOREIGN KEY (SalesTerritoryUniqueID)
-		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesTerritory(SalesTerritoryUniqueID)
-	, CONSTRAINT FK_DimCustomerStore_DimSalesPerson FOREIGN KEY (SalesPersonUniqueID)
-		REFERENCES MAU_AdventureWorks2022_DW.dbo.DimSalesPerson(SalesPersonUniqueID)
 )
 
 

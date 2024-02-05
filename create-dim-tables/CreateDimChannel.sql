@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS dbo.DimChannel
 -- Create DimChannel Table
 CREATE TABLE dbo.DimChannel (
 	UniqueChannelID int IDENTITY(1,1)
-	, ChannelCode nvarchar(5) UNIQUE NOT NULL
+	, ChannelCode nvarchar(5) NOT NULL
 	, Channel dbo.NameType
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL
