@@ -12,6 +12,7 @@ CREATE TABLE dbo.DimPromo (
 	, Category nvarchar(50) NOT NULL 
 	, StartDate date NOT NULL
 	, EndDate date NOT NULL
+	, IsActive int
 	, MinQuantity int  NOT NULL
 	, MaxQuantity int
 	, DateCreated date NOT NULL
@@ -29,6 +30,9 @@ SELECT
       ,Category = sso.Category
       ,StartDate = sso.StartDate
       ,EndDate = sso.EndDate
+	  ,IsActive = CASE WHEN sso.StartDate <= GETDATE() AND (sso.EndDate IS NULL OR sso.EndDate >= GETDATE()) THEN 1 
+					   WHEN sso.StartDate > GETDATE() OR sso.EndDate < GETDATE()  OR sso.StartDate IS NULL THEN 0
+				  END
       ,MinQuantity = sso.MinQty
       ,MaxQuantity = sso.MaxQty
       ,DateCreated = GETDATE()

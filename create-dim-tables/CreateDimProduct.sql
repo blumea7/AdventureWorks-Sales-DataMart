@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS dbo. DimProduct
 CREATE TABLE dbo.DimProduct (
 	ProductUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, ProductCode nvarchar(25) NOT NULL -- Operational Product Key
+	, ProductName dbo.NameType
 	, SalelabeIndicator nvarchar(15) NOT NULL -- 1 = Saleable , 0 = Not Saleable
 	, Color nvarchar(15) -- nvarchar(15)
 	, StandardCost float NOT NULL
@@ -28,43 +29,19 @@ CREATE TABLE dbo.DimProduct (
 	, Model dbo.NameType
 	, SellStartDate date 
 	, SellEndDate date
+	, IsActive int -- 1 = Active, 0 = Not Active
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL
 	, CONSTRAINT PK_DimProduct_ProductID PRIMARY KEY CLUSTERED (ProductUniqueID ASC)
-	, CONSTRAINT CK_DimProduct_ProductLineCode CHECK (
-		ProductLineCode IN ('R', 'M', 'T', 'S') OR 
-		ProductLineCode IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_ProductLine CHECK (
-		ProductLine IN ('Road', 'Mountain', 'Touring', 'Standard') OR 
-		ProductLine IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_ClassCode CHECK (
-		ClassCode IN ('H', 'M', 'L') OR 
-		ClassCode IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_Class CHECK (
-		Class IN ('High', 'Medium', 'Low') OR 
-		Class IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_StyleCode CHECK (
-		StyleCode IN ('W', 'M', 'U') OR 
-		StyleCode IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_Style CHECK (
-		Style IN ('Womens', 'Mens', 'Universal') OR 
-		Style IS NULL
-	)
-	, CONSTRAINT CK_DimProduct_ListPrice CHECK (
-		ListPrice >= 0.00
-	)
 )
+
 
 -- Populate DimProduct with values
 INSERT INTO dbo.DimProduct
 SELECT
 --	ProductUniqueID int IDENTITY (1,1) NOT NULL 
 	ProductCode = pp.ProductNumber
+	, ProductName = pp.[Name]
 	, SalelabeIndicator = CASE WHEN pp.FinishedGoodsFlag = 0 THEN 'Not Saleable'
 						  WHEN pp.FinishedGoodsFlag = 1 THEN 'Saleable'
 					      END 
@@ -98,14 +75,17 @@ SELECT
 	, Model = ppm.[Name]
 	, SellStartDate = pp.SellStartDate
 	, SellEndDate = pp.SellEndDate
+	, IsActive = CASE WHEN pp.SellStartDate <= GETDATE() AND (pp.SellEndDate IS NULL OR pp.SellEndDate >= GETDATE()) THEN 1
+					  WHEN pp.SellStartDate > GETDATE() OR pp.SellStartDate IS NULL OR pp.SellEndDate < GETDATE() THEN 0
+				 END
 	, DateCreated = GETDATE() 
 	, DateModified = GETDATE()
 FROM AdventureWorks2022.Production.Product pp 
-INNER JOIN AdventureWorks2022.Production.UnitMeasure pumSize ON pumSize.UnitMeasureCode = pp.SizeUnitMeasureCode
-INNER JOIN AdventureWorks2022.Production.UnitMeasure pumWeight ON pumWeight.UnitMeasureCode = pp.WeightUnitMeasureCode
-INNER JOIN AdventureWorks2022.Production.ProductSubcategory ppsc ON ppsc.ProductSubcategoryID = pp.ProductSubcategoryID
+LEFT JOIN AdventureWorks2022.Production.UnitMeasure pumSize ON pumSize.UnitMeasureCode = pp.SizeUnitMeasureCode
+LEFT JOIN AdventureWorks2022.Production.UnitMeasure pumWeight ON pumWeight.UnitMeasureCode = pp.WeightUnitMeasureCode
+LEFT JOIN AdventureWorks2022.Production.ProductSubcategory ppsc ON ppsc.ProductSubcategoryID = pp.ProductSubcategoryID
 INNER JOIN AdventureWorks2022.Production.ProductCategory ppc ON ppc.ProductCategoryID = ppsc.ProductCategoryID
-INNER JOIN AdventureWorks2022.Production.ProductModel ppm ON ppm.ProductModelID = pp.ProductModelID
+LEFT JOIN AdventureWorks2022.Production.ProductModel ppm ON ppm.ProductModelID = pp.ProductModelID
 
 -- Check inserted data
 

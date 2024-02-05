@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS dbo.DimCustomer
 -- Create table for Customer Dimension
 CREATE TABLE dbo.DimCustomer(
 	CustomerUniqueID int IDENTITY(1,1) NOT NULL -- Autoincrementing Surrogate Key
-	, AccountNumber nvarchar(10) UNIQUE NOT NULL -- Alternate Primary Key
+	, AccountNumber nvarchar(10) NOT NULL 
 	, GeographyID int NOT NULL -- Foreign Key
 	, FirstName dbo.NameType 
 	, MiddleName dbo.NameType
@@ -29,7 +29,6 @@ CREATE TABLE dbo.DimCustomer(
 	, DateCreated date
 	, DateModified date
 	, CONSTRAINT PK_DimCustomer_CustomerID PRIMARY KEY CLUSTERED (CustomerUniqueID ASC)
-	, CONSTRAINT FK_DimCustomer_GeographyID FOREIGN KEY (GeographyUniqueID) REFERENCES MAU_AdventureWorks2022_DW.dbo.DimGeography (GeographyUniqueID)
 )
 
 SELECT 

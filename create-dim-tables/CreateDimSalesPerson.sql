@@ -24,11 +24,6 @@ CREATE TABLE dbo.DimSalesPerson(
 	, DateCreated date NOT NULL
 	, DateModified date NOT NULL
 	, CONSTRAINT PK_DimSalesPerson_SalesPersonID PRIMARY KEY CLUSTERED (SalesPersonUniqueID ASC)
-	, CONSTRAINT CK_DimSalesPerson_GenderCode CHECK (GenderCode IN ('F', 'M'))
-	, CONSTRAINT CK_DimSalesPerson_Gender CHECK (Gender IN ('Female', 'Male'))
-	, CONSTRAINT CK_DimSalesPerson_SalesQuota CHECK(SalesQuota >= 0.00)
-	, CONSTRAINT CK_DimSalesPerson_Bonus CHECK(Bonus >= 0.00)
-	, CONSTRAINT CK_DimSalesPerson_CommissionPct CHECK(CommissionPct >= 0.00)
 )
 
 ALTER TABLE dbo.DimSalesPerson ADD CONSTRAINT DF_DimSalesPerson_SalesQuota DEFAULT ((0.00)) FOR [SalesQuota]
