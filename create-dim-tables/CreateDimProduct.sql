@@ -8,7 +8,7 @@ CREATE TABLE dbo.DimProduct (
 	ProductUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, ProductCode nvarchar(25) NOT NULL -- Operational Product Key
 	, ProductName dbo.NameType
-	, SalelabeIndicator nvarchar(15) NOT NULL -- 1 = Saleable , 0 = Not Saleable
+	, SalelableIndicator nvarchar(15) NOT NULL -- 1 = Saleable , 0 = Not Saleable
 	, Color nvarchar(15) -- nvarchar(15)
 	, StandardCost float NOT NULL
 	, ListPrice float NOT NULL
@@ -42,7 +42,7 @@ SELECT
 --	ProductUniqueID int IDENTITY (1,1) NOT NULL 
 	ProductCode = pp.ProductNumber
 	, ProductName = pp.[Name]
-	, SalelabeIndicator = CASE WHEN pp.FinishedGoodsFlag = 0 THEN 'Not Saleable'
+	, SalelableIndicator = CASE WHEN pp.FinishedGoodsFlag = 0 THEN 'Not Saleable'
 						  WHEN pp.FinishedGoodsFlag = 1 THEN 'Saleable'
 					      END 
 	, Color = pp.Color
