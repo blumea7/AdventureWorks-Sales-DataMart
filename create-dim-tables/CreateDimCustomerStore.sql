@@ -9,8 +9,8 @@ CREATE TABLE dbo.DimCustomerStore(
 	, SalesTerritoryUniqueID int NOT NULL -- Foreign key to DimSalesTerritory table
 	, SalesPersonUniqueID int NOT NULL  -- Foreign key to DimSalesPerson table
 	, StoreName dbo.NameType
-	, AnnualSales int NOT NULL
-	, AnnualRevenue int NOT NULL
+	, AnnualSales int 
+	, AnnualRevenue int 
 	, BankName nvarchar(50)
 	, BusinessType nvarchar(5)
 	, YearOpened int
