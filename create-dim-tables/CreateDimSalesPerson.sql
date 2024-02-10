@@ -14,7 +14,7 @@ CREATE TABLE dbo.DimSalesPerson(
 	, NameSuffix nvarchar(10) 
 	, JobTitle dbo.NameType 
 	, BirthDate date NOT NULL 
-	, GenderCode nchar(1) NOT NULL 
+	, GenderCode nchar(1) 
 	, Gender nvarchar(10) NOT NULL 
 	, PhoneNumber nvarchar(25) NOT NULL 
 	, EmailAddress dbo.NameType

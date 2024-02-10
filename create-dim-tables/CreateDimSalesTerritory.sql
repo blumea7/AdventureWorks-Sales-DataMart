@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS dbo.DimSalesTerritory
 CREATE TABLE dbo.DimSalesTerritory (
 	SalesTerritoryUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, SalesTerritory dbo.NameType
-	, CountryCode nvarchar(3) NOT NULL
+	, CountryCode nvarchar(3)
 	, Country nvarchar(50) NOT NULL
 	, TerritoryGroup nvarchar(50) NOT NULL
 	, DateCreated date NOT NULL

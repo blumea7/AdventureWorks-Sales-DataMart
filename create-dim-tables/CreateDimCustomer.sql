@@ -16,9 +16,9 @@ CREATE TABLE dbo.DimCustomer(
 	, EmailAddress nvarchar(50) NOT NULL
 	, PhoneNumber nvarchar(25) NOT NULL
 	, BirthDate date NOT NULL
-	, MaritalStatus nchar(1) NOT NULL
+	, MaritalStatus nchar(1) NULL
 	, YearlyIncome nvarchar(50)
-	, GenderCode nchar(1) NOT NULL
+	, GenderCode nchar(1) NULL
 	, Gender nvarchar(10) NOT NULL
 	, TotalChildren int
 	, NumberChildrenAtHome int
