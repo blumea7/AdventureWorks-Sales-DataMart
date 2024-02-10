@@ -2,43 +2,70 @@ USE MAU_AdventureWorks2022_DW
 GO
 
 --SELECT * FROM AdventureWorks2022.Sales.SalesOrderDetail
---SELECT * FROM AdventureWorks2022.Sales.SalesOrderHeader 
+--WHERE UnitPriceDiscount <> 0
+
+--SELECT * FROM AdventureWorks2022.Sales.SalesOrderHeader
+
 
 ;WITH ConvertedPrices AS  (
-	SELECT 
-		ssoh.SalesOrderID 
-		, ssod.SalesOrderDetailID
-		, ssoh.CurrencyRateID
-	FROM AdventureWorks2022.Sales.SalesOrderDetail ssod
-	INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID = ssod.SalesOrderID
-
+SELECT 
+	ssoh.SalesOrderID 
+	, ssod.SalesOrderDetailID
+	, ConvertedUnitPrice = 
+		CASE WHEN scr.CurrencyRateID IS NULL THEN ssod.UnitPrice -- When CurrencyRateID is NULL, Price is already in USD. No need to convert.
+			 ELSE ssod.UnitPrice / scr.AverageRate
+		END
+	, ConvertedLineTotal = 
+		CASE WHEN scr.CurrencyRateID IS NULL THEN ssod.LineTotal -- When CurrencyRateID is NULL, Price is already in USD. No need to convert.
+			ELSE ssod.LineTotal / scr.AverageRate
+		END
+	, ssod.LineTotal
+	, CurrencyUniqueID = 
+		CASE WHEN ddc.CurrencyUniqueID IS NULL THEN 100
+			 ELSE ddc.CurrencyUniqueID
+		END
+	, ConvertedTaxAmount = 
+		CASE WHEN scr.CurrencyRateID IS NULL THEN (ssoh.TaxAmt)*(ssod.LineTotal/ssoh.SubTotal)
+			 ELSE (ssoh.TaxAmt/scr.AverageRate)*(ssod.LineTotal/ssoh.SubTotal)
+		END
+	, ConvertedFreight = 
+		CASE WHEN scr.CurrencyRateID IS NULL THEN (ssoh.Freight)*(ssod.LineTotal/ssoh.SubTotal)
+			 ELSE (ssoh.Freight/scr.AverageRate)*(ssod.LineTotal/ssoh.SubTotal)
+		END
+FROM AdventureWorks2022.Sales.SalesOrderDetail ssod
+INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID = ssod.SalesOrderID
+LEFT JOIN AdventureWorks2022.Sales.CurrencyRate scr ON scr.CurrencyRateID = ssoh.CurrencyRateID
+LEFT JOIN MAU_AdventureWorks2022_DW.dbo.DimCurrency ddc ON ddc.CurrencyCode = scr.ToCurrencyCode
 )
 
-SELECT * FROM ConvertedPrices
-
-SELECT TOP(100)
-	SalesOrderUniqueID = ssod.SalesOrderID
-	, SalesOrderNumber = ssoh.SalesOrderNumber -- Degenerate Key
-	, PurchaseOrderNumber = ssoh.PurchaseOrderNumber -- Degenerate Key
+SELECT 
+	OrderID = ssoh.SalesOrderNumber -- Degenerate Key 
+	, PONumber = CASE WHEN ssoh.PurchaseOrderNumber IS NULL THEN 'NO PO Number'
+					  ELSE ssoh.PurchaseOrderNumber
+				 END
+	, ssoh.OnlineOrderFlag
+	, CustomerUniqueID = 1
 	, ProductUniqueID = ddp.ProductUniqueID
-	, PromoUniqueID = ddpromo.PromoUniqueID
+	, CurrencyUniqueID = cp.CurrencyUniqueID
+	, PromoUniqueID = ddp2.PromoUniqueID
+	, UnitPrice = cp.ConvertedUnitPrice
 	, Quantity = ssod.OrderQty
-	, UnitPrice = ssod.UnitPrice
-	, TotalOriginalPrice = ssod.OrderQty * ssod.UnitPrice -- Total Line Price before promo discount
-	, UnitDiscountPercentage = ssod.UnitPriceDiscount
-	, UnitDiscountAmount = ssod.UnitPrice * ssod.UnitPriceDiscount
-	, TotalDiscountAmount = ssod.UnitPrice * ssod.UnitPriceDiscount * ssod.OrderQty
-	, LineTotal = ssod.LineTotal  -- Total Line Price after promo discount
-	, LineTaxAmount =  (ssod.LineTotal/ssoh.SubTotal)*ssoh.TaxAmt
-	, LineFreight = (ssod.LineTotal/ssoh.SubTotal)*ssoh.Freight
-	, LineTotalPayment = -- LineTotal + Line Tax Amount + LineFreight
-		ssod.LineTotal 
-		+ (ssod.LineTotal/ssoh.SubTotal)*ssoh.TaxAmt 
-		+ (ssod.LineTotal/ssoh.SubTotal)*ssoh.Freight
-FROM AdventureWorks2022.Sales.SalesOrderDetail ssod
+	, Discount = ssod.UnitPriceDiscount
+	, UnitPriceDiscount = ssod.UnitPriceDiscount * cp.ConvertedUnitPrice
+	, TotalLineDiscount =  ssod.UnitPriceDiscount * cp.ConvertedUnitPrice * ssod.OrderQty
+	, SalesAmount = cp.ConvertedLineTotal
+	, TaxAmount = cp.ConvertedTaxAmount
+	, Freight = cp.ConvertedFreight
+	, TotalDue = cp.ConvertedLineTotal + cp.ConvertedTaxAmount + cp.ConvertedFreight
+	, sc.*
+	, pp2.*
+FROM ConvertedPrices cp 
+INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID = cp.SalesOrderID
+INNER JOIN AdventureWorks2022.Sales.SalesOrderDetail ssod ON ssod.SalesOrderDetailID = cp.SalesOrderDetailID
 INNER JOIN AdventureWorks2022.Production.Product pp ON pp.ProductID = ssod.ProductID
-INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimProduct ddp ON  ddp.ProductCode = pp.ProductNumber
-INNER JOIN AdventureWorks2022.Sales.SpecialOffer sso ON sso.SpecialOfferID = ssod.SpecialOfferID
-INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimPromo ddpromo ON ddpromo.Promo = sso.[Description]
-INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID = ssod.SalesOrderID
+INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimProduct ddp ON ddp.ProductCode = pp.ProductNumber
+INNER JOIN AdventureWorks2022.Sales.SpecialOffer sso ON sso.SpecialOfferID	= ssod.SpecialOfferID
+INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimPromo ddp2 ON ddp2.Promo = sso.[Description]
+INNER JOIN AdventureWorks2022.Sales.Customer sc ON ssoh.CustomerID = sc.CustomerID
+LEFT JOIN AdventureWorks2022.Person.Person pp2 ON pp2.BusinessEntityID = sc.PersonID
 
