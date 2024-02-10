@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS dbo.DimGeography
 CREATE TABLE dbo.DimGeography (
 	GeographyUniqueID int IDENTITY (1,1) NOT NULL -- Autoincrementing Surrogate Key
 	, City nvarchar(30) NOT NULL
-	, StateCode nvarchar(3) NOT NULL
+	, StateCode nvarchar(3) 
 	, [State] dbo.NameType
 	, [City-State] nvarchar(80) NOT NULL
-	, CountryCode nvarchar(3) NOT NULL
+	, CountryCode nvarchar(3) 
 	, Country dbo.NameType
 	, SalesTerritory dbo.NameType
 	, SalesTerritoryGroup nvarchar(50) NOT NULL
