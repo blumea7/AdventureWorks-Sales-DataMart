@@ -1,9 +1,9 @@
 USE MAU_AdventureWorks2022_DW
 GO
 
-DROP TABLE IF EXISTS dbo.FactInternetSales
+DROP TABLE IF EXISTS dbo.FactStoreSales
 
-;WITH ConvertedPrices AS  ( -- Intermediate table to compute for converted prices
+;WITH ConvertedPrices AS  ( -- Intermediate table to compute for prices converted to USD
 SELECT 
 	SalesOrderID = ssoh.SalesOrderID 
 	, SalesOrderDetailID = ssod.SalesOrderDetailID
@@ -33,7 +33,7 @@ INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID =
 LEFT JOIN AdventureWorks2022.Sales.CurrencyRate scr ON scr.CurrencyRateID = ssoh.CurrencyRateID
 LEFT JOIN MAU_AdventureWorks2022_DW.dbo.DimCurrency ddc ON ddc.CurrencyCode = scr.ToCurrencyCode
 LEFT JOIN AdventureWorks2022.Production.Product pp ON pp.ProductID = ssod.ProductID
-WHERE ssoh.OnlineOrderFlag = 1 -- get only Sales data from Internet
+WHERE ssoh.OnlineOrderFlag = 0 -- get only Sales data from Stores
 )
 
 SELECT 
@@ -42,13 +42,16 @@ SELECT
 	, PONumber = CASE WHEN ssoh.PurchaseOrderNumber IS NULL THEN 'NO PO Number'
 					  ELSE ssoh.PurchaseOrderNumber
 				 END
-	, OrderDate = ddd1.DateKey
-	, DueDate = ddd2.DateKey
-	, ShipDate = ddd3.DateKey
-	, CustomerKey = ddc.CustomerUniqueID
-	, ProductKey = ddp.ProductUniqueID
-	, CurrencyKey = cp.CurrencyUniqueID
-	, PromoKey = ddp2.PromoUniqueID
+	, ChannelKey = ddc2.UniqueChannelID
+	, OrderDateKey = CASE WHEN ddd1.DateKey IS NULL THEN 9991231 ELSE ddd1.DateKey END
+	, DueDateKey = CASE WHEN ddd2.DateKey IS NULL THEN 9991231 ELSE ddd2.DateKey END
+	, ShipDateKey =  CASE WHEN ddd3.DateKey IS NULL THEN 9991231 ELSE ddd3.DateKey END
+	, CustomerKey = CASE WHEN ddcs.StoreUniqueID IS NULL THEN -1 ELSE ddcs.StoreUniqueID END
+	, SalesPersonKey = CASE WHEN ddsp.SalesPersonUniqueID IS NULL THEN -1 ELSE ddsp.SalesPersonUniqueID END
+	, ProductKey =  CASE WHEN ddp.ProductUniqueID IS NULL THEN -1 ELSE ddp.ProductUniqueID END
+	, CurrencyKey = cp.CurrencyUniqueID 
+	, PromoKey = CASE WHEN ddp2.PromoUniqueID IS NULL THEN -1 ELSE ddp2.PromoUniqueID END
+	, TerritoryKey = CASE WHEN ddst.SalesTerritoryUniqueID IS NULL THEN -1 ELSE ddst.SalesTerritoryUniqueID END
 	, UnitPrice = cp.ConvertedUnitPrice
 	, Quantity = ssod.OrderQty
 	, LinePrice = cp.ConvertedUnitPrice*ssod.OrderQty
@@ -59,10 +62,10 @@ SELECT
 	, TaxAmount = cp.ConvertedTaxAmount
 	, Freight = cp.ConvertedFreight
 	, TotalDue = cp.ConvertedLineTotal + cp.ConvertedTaxAmount + cp.ConvertedFreight
-	, UnitCost = cp.ConvertedProductCost
-	, LineCost = cp.ConvertedProductCost * ssod.OrderQty
-	, NetSalesAmount =  cp.ConvertedLineTotal - cp.ConvertedProductCost * ssod.OrderQty
-INTO dbo.FactInternetSales -- automatically creates FactInternetSales table
+	, UnitProductCost = cp.ConvertedProductCost
+	, LineProductCost = cp.ConvertedProductCost * ssod.OrderQty
+	, NetProfit =  cp.ConvertedLineTotal - (cp.ConvertedProductCost * ssod.OrderQty)
+INTO dbo.FactStoreSales -- automatically creates FactStoreSales table
 FROM ConvertedPrices cp 
 INNER JOIN AdventureWorks2022.Sales.SalesOrderHeader ssoh ON ssoh.SalesOrderID = cp.SalesOrderID
 INNER JOIN AdventureWorks2022.Sales.SalesOrderDetail ssod ON ssod.SalesOrderDetailID = cp.SalesOrderDetailID
@@ -70,12 +73,23 @@ INNER JOIN AdventureWorks2022.Production.Product pp ON pp.ProductID = ssod.Produ
 INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimProduct ddp ON ddp.ProductCode = pp.ProductNumber
 INNER JOIN AdventureWorks2022.Sales.SpecialOffer sso ON sso.SpecialOfferID	= ssod.SpecialOfferID
 INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimPromo ddp2 ON ddp2.Promo = sso.[Description]
-INNER JOIN AdventureWorks2022.Sales.Customer sc ON sc.CustomerID = ssoh.CustomerID 
-INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimCustomer ddc ON ddc.AccountNumber = sc.AccountNumber
 INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimDate ddd1 ON ddd1.[Date] = ssoh.OrderDate
 INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimDate ddd2 ON ddd2.[Date] = ssoh.DueDate
 INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimDate ddd3 ON ddd3.[Date] = ssoh.ShipDate
+INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimChannel ddc2 ON ddc2.OnlineOrderFlag = ssoh.OnlineOrderFlag
+LEFT JOIN AdventureWorks2022.Sales.SalesPerson ssp ON ssp.BusinessEntityID = ssoh.SalesPersonID
+LEFT JOIN AdventureWorks2022.Person.Person pp2 ON pp2.BusinessEntityID = ssp.BusinessEntityID
+LEFT JOIN MAU_AdventureWorks2022_DW.dbo.DimSalesPerson ddsp ON (ddsp.FullName = CONCAT(pp2.FirstName, ' ', pp2.MiddleName, ' ', pp2.LastName))
+INNER JOIN AdventureWorks2022.Sales.SalesTerritory sst ON sst.TerritoryID = ssoh.TerritoryID
+INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimSalesTerritory ddst ON (
+	ddst.SalesTerritory = sst.[Name] 
+	AND ddst.CountryCode = sst.CountryRegionCode 
+	AND ddst.TerritoryGroup = sst.[Group]
+)
+INNER JOIN AdventureWorks2022.Sales.Customer sc ON sc.CustomerID = ssoh.CustomerID 
+INNER JOIN AdventureWorks2022.Sales.Store ss ON ss.BusinessEntityID = sc.StoreID
+INNER JOIN MAU_AdventureWorks2022_DW.dbo.DimCustomerStore ddcs ON (ddcs.StoreName = ss.[Name] AND ddst.SalesTerritoryUniqueID = ddcs.SalesTerritoryUniqueID)
 
--- View Sample Date
-SELECT TOP(10) * FROM dbo.FactInternetSales
+-- View Sample Data
 
+SELECT TOP(10) * FROM dbo.FactStoreSales
