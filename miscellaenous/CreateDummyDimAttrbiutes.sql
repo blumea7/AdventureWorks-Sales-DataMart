@@ -34,7 +34,7 @@ BEGIN
 	)
 	VALUES(
 		-1
-		, 'AW00011000'
+		, 'AW00000000'
 		, -1
 		, 'Unknown'
 		, 'Unknown'
