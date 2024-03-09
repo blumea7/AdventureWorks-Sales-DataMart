@@ -48,8 +48,6 @@ WHERE
 
 -- End of Showing Column Metadata 
 
-SELECT * FROM sys.tables
-
 /*
 Notes:
 
@@ -89,43 +87,31 @@ database objects
 */
 
 
-
-
+-- Shows table metadata such as table name, date of creation, row count, and space used
 SELECT 
 	st.[name] AS 'Table'
 	, st.create_date AS 'Date Created'
- FROM sys.tables st
+	, MAX(sp.[rows]) AS 'Number of Rows'
+	, SUM(sau.data_pages) * 8 AS 'Data Space Used (KB)'
+	, (SUM(sau.used_pages) - SUM(sau.data_pages)) * 8 AS 'Index Space Used (KB)'
+FROM sys.tables st
+LEFT JOIN sys.partitions sp ON sp.object_id = st.object_id -- id of table which the partition belongs
+LEFT JOIN sys.allocation_units sau ON sau.container_id = sp.hobt_id -- Heap or B-Tree ID. Unique identifier for the internal data structure used to store the partition's data
+GROUP BY 
+	st.[name]
+	, st.create_date
+ORDER BY 'Data Space Used (KB)' DESC
 
-
-
- SELECT
-  t.object_id,
-  OBJECT_NAME(t.object_id) ObjectName,
-  sum(u.total_pages) * 8 Total_Reserved_kb,
-  sum(u.used_pages) * 8 Used_Space_kb,
-  u.type_desc,
-  max(p.rows) RowsCount
-FROM
-  sys.allocation_units 
-  JOIN sys.partitions p on u.container_id = p.hobt_id
-
-  JOIN sys.tables t on p.object_id = t.object_id
-WHERE 
-	t.object_id = 1429580131
-GROUP BY
-  t.object_id,
-  OBJECT_NAME(t.object_id),
-  u.type_desc
-ORDER BY
-  Used_Space_kb desc,
-  ObjectName;
 
 /*
-Computation Notes: 
+Data Space Computation Notes: 
+
+1. partitions
+Partitions are subsets of a table or index that are stored separately
+
+2. allocation_units
 
 An allocation unit is a fundamental component of the storage architecture, representing a 
 group of pages where data is stored. SQL Server organizes database files into pages, 
 which are the basic units of data storage, each being 8 KB in size.
-
-https://learn.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-allocation-units-transact-sql?view=sql-server-ver16
 */
