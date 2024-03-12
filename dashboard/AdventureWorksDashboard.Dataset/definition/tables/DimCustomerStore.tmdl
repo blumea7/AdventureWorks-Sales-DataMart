@@ -1,0 +1,175 @@
+table DimCustomerStore
+	lineageTag: 1c871754-ddec-4bd1-aa38-016b2d2beec3
+
+	column StoreUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 31460f68-b1b5-4691-bad8-5600bbb054b3
+		summarizeBy: none
+		sourceColumn: StoreUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d7e8cb8e-fca2-46d8-8da7-c18649051110
+		summarizeBy: none
+		sourceColumn: SalesTerritoryUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesPersonUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 319cdd48-e73b-42d8-9d12-04d880b8801b
+		summarizeBy: none
+		sourceColumn: SalesPersonUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column StoreName
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 5c5c8f95-9892-42e0-a248-271339d54605
+		summarizeBy: none
+		sourceColumn: StoreName
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnnualSales
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 62e18010-068a-478f-9c7c-c76ac9c8a4c4
+		summarizeBy: none
+		sourceColumn: AnnualSales
+
+		annotation SummarizationSetBy = Automatic
+
+	column AnnualRevenue
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a2936964-f031-46f0-9550-36418209671a
+		summarizeBy: none
+		sourceColumn: AnnualRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column BankName
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 7c2f1b5e-c2dd-4b61-b060-e835b9964147
+		summarizeBy: none
+		sourceColumn: BankName
+
+		annotation SummarizationSetBy = Automatic
+
+	column BusinessType
+		dataType: string
+		sourceProviderType: nvarchar(5)
+		lineageTag: 5a1073d4-d386-47c3-86ad-0f45d18890bb
+		summarizeBy: none
+		sourceColumn: BusinessType
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearOpened
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 73d5d09b-979b-41a6-ba35-9960ed305513
+		summarizeBy: none
+		sourceColumn: YearOpened
+
+		annotation SummarizationSetBy = Automatic
+
+	column Specialty
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: e57ba0fa-f8fc-4a42-83ea-3bb26869ea2c
+		summarizeBy: none
+		sourceColumn: Specialty
+
+		annotation SummarizationSetBy = Automatic
+
+	column SquareFeet
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 448a807c-9851-4483-8b86-ec8a2b635f78
+		summarizeBy: none
+		sourceColumn: SquareFeet
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brands
+		dataType: string
+		sourceProviderType: nvarchar(30)
+		lineageTag: 0f5f269e-b490-4442-bacb-1795d4c6d188
+		summarizeBy: none
+		sourceColumn: Brands
+
+		annotation SummarizationSetBy = Automatic
+
+	column Internet
+		dataType: string
+		sourceProviderType: nvarchar(30)
+		lineageTag: 093de757-e4f8-4f06-872f-67e9361c191b
+		summarizeBy: none
+		sourceColumn: Internet
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberEmployees
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5b3a74cd-3963-4e46-ae82-d89bec4b3a29
+		summarizeBy: none
+		sourceColumn: NumberEmployees
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: a7710eef-9b65-446d-8e68-c4de30dd7ecf
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 37cc0d4e-c943-44b7-8594-59a586b81ed8
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimCustomerStore = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimCustomerStore = Source{[Schema="dbo",Item="DimCustomerStore"]}[Data]
+				in
+				    dbo_DimCustomerStore
+

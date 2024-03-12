@@ -1,0 +1,60 @@
+relationship 7a55b495-e5b3-41e8-9f81-2aa5c1145f26
+	fromColumn: FactInternetSales.ChannelKey
+	toColumn: DimChannel.UniqueChannelID
+
+relationship 2b4192af-990f-4641-9a9d-e04e0bb45990
+	fromColumn: FactStoreSales.ChannelKey
+	toColumn: DimChannel.UniqueChannelID
+
+relationship aafce6ac-5105-4067-8658-b146304ef163
+	fromColumn: FactInternetSales.OrderDateKey
+	toColumn: DimDate.DateKey
+
+relationship 3db53056-ef1e-4a6f-bacf-444d459b6830
+	fromColumn: FactStoreSales.OrderDateKey
+	toColumn: DimDate.DateKey
+
+relationship 0a4026ad-5246-44e1-b330-9dfbf19626bc
+	fromColumn: FactInternetSales.PromoKey
+	toColumn: DimPromo.PromoUniqueID
+
+relationship 3b8eb65f-9af5-45af-a4ce-13fce3669575
+	fromColumn: FactStoreSales.PromoKey
+	toColumn: DimPromo.PromoUniqueID
+
+relationship 98a7df8c-851d-40ad-b4e8-edc76a34e1e6
+	fromColumn: FactInternetSales.TerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryUniqueID
+
+relationship 0a573037-ffeb-444a-872e-91e3fe6f28fd
+	fromColumn: FactStoreSales.TerritoryKey
+	toColumn: DimSalesTerritory.SalesTerritoryUniqueID
+
+relationship a6af715a-ade5-4346-b112-c3881e3b2e85
+	fromColumn: FactInternetSales.CustomerKey
+	toColumn: DimCustomer.CustomerUniqueID
+
+relationship 7623212c-273a-4253-a178-ab8634e6a0ca
+	fromColumn: FactInternetSales.SalesPersonKey
+	toColumn: DimSalesPerson.SalesPersonUniqueID
+
+relationship 272746c1-2dd1-4975-8540-bab3b95d7215
+	fromColumn: DimCustomer.GeographyUniqueID
+	toColumn: DimGeography.GeographyUniqueID
+
+relationship a96b5acc-74f4-40c2-813c-f9ccf26548a8
+	fromColumn: FactStoreSales.SalesPersonKey
+	toColumn: DimSalesPerson.SalesPersonUniqueID
+
+relationship ab2226b8-26a6-4994-bf8b-7c7c5c82cf58
+	fromColumn: FactInternetSales.ProductKey
+	toColumn: DimProduct.ProductUniqueID
+
+relationship 5380c8e6-e6db-4678-b7b8-b66ac7b4b290
+	fromColumn: FactStoreSales.ProductKey
+	toColumn: DimProduct.ProductUniqueID
+
+relationship 246a2aa6-5eab-4b41-be96-538b1e2aa32c
+	fromColumn: FactStoreSales.CustomerKey
+	toColumn: DimCustomerStore.StoreUniqueID
+
