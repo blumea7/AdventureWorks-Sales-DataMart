@@ -29,6 +29,7 @@ CREATE TABLE dbo.DimDate (
 	, [DayName] varchar(10) NOT NULL -- SUNDAY TO SATURDAY
 	, ShortDayName char(3) NOT NULL -- SUN TO SAT
 	, CurrentDayIndicator varchar(16) NOT NULL
+	, IsOnOrBeforeCurrentDay varchar(3) NOT NULL
 	, HolidayIndicator varchar(15) NOT NULL -- Holiday or Non-Holiday
 	CONSTRAINT PK_DimDate_DateKey PRIMARY KEY CLUSTERED (DateKey ASC)
 )
@@ -102,6 +103,11 @@ SELECT
 		CASE WHEN [Date] = FORMAT(GETDATE(),'yyyy-MM-dd') 
 		     THEN 'Current Date' 
 		     ELSE 'Not Current Date'
+		END
+	, IsOnOrBeforeCurrentDay = 
+		CASE WHEN [Date] <= FORMAT(GETDATE(),'yyyy-MM-dd') 
+			THEN 'Yes'
+			ELSE 'No'
 		END
 	, HolidayIndicator = 
 		CASE WHEN MonthNum = '01' AND DayNum = '01' THEN 'Holiday'
