@@ -1,0 +1,87 @@
+table DimSalesTerritory
+	lineageTag: d5e05df7-3f47-4a51-8169-3fc365a822c3
+
+	column SalesTerritoryUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 337cba3a-d642-43f7-9c89-29b99120738e
+		summarizeBy: none
+		sourceColumn: SalesTerritoryUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritory
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 42a6b5bb-f4ff-45fd-b517-d98d9fced2b9
+		summarizeBy: none
+		sourceColumn: SalesTerritory
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryCode
+		dataType: string
+		sourceProviderType: nvarchar(3)
+		lineageTag: 8dbdd218-3804-48bf-be50-bd4c0d4df2a2
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: cb32e2a4-5a43-4e76-b581-68e7877794da
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryGroup
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: b135abcb-d6ec-4450-a250-568cf9cef65e
+		summarizeBy: none
+		sourceColumn: TerritoryGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: b6c9b6cb-c120-454c-a4d3-4b9ebcc043e0
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: badfafe6-1ba7-406a-908e-d9b3ab0f5e3e
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimSalesTerritory = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimSalesTerritory = Source{[Schema="dbo",Item="DimSalesTerritory"]}[Data]
+				in
+				    dbo_DimSalesTerritory
+
