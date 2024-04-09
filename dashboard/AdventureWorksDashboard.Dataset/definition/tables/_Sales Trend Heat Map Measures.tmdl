@@ -1,0 +1,227 @@
+table '_Sales Trend Heat Map Measures'
+	lineageTag: 0613951b-c88e-4b9f-97a7-50d8c23fad15
+
+	measure 'Min Sale' = ```
+			
+			
+			/*
+			This measure computes the minimum daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			
+			*/
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			
+			VAR min_sale_internet =
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Internet Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR min_sale_store = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Store Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR min_sale = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Total Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", min_sale_internet
+			    , channel = "Store Reseller", min_sale_store
+			    , min_sale
+			)
+			```
+		formatString: #,0.00
+		lineageTag: a11c9188-6f30-47d2-b9a4-0052e421d8d1
+
+	measure daily_sales_internet = ```
+			
+			    CALCULATE(
+			        [Net Sales]
+			        , ALLEXCEPT(DimDate, DimDate[Year], DimDate[Month], DimDate[DayOfMonth])
+			        , ALLEXCEPT(DimChannel, DimChannel[Channel])
+			        , DimChannel[Channel] = "Internet"
+			    )
+			```
+		formatString: #,0.00
+		lineageTag: c0e5d109-67a5-487a-8a6e-6639e1d55b49
+
+	measure 'Max Sales' = ```
+			
+			
+			/*
+			This measure computes the max daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			
+			*/
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			
+			VAR max_sale_internet =
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Internet Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR max_sale_store = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Store Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR max_sale = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Total Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", max_sale_internet
+			    , channel = "Store Reseller", max_sale_store
+			    , max_sale
+			)
+			```
+		formatString: #,0
+		lineageTag: 7a3b72b8-5f41-4190-a68a-347f1b2ae8cd
+
+	measure '25th Percentile Sales' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			
+			VAR first_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR first_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR first_quartile_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", first_quartile_sale_internet
+			    , channel = "Store Reseller", first_quartile_sale_store
+			    , first_quartile_sale
+			)
+			```
+		formatString: #,0
+		lineageTag: 8e61256f-fe39-4495-aed7-2bba711124e5
+
+	measure '50th Percentile Sales' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			
+			VAR second_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR second_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR second_quartile_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", second_quartile_sale_internet
+			    , channel = "Store Reseller", second_quartile_sale_store
+			    , second_quartile_sale
+			)
+			```
+		formatString: #,0.00
+		lineageTag: 0b642d99-5aae-4966-bbfc-6ab1682d78c0
+
+	measure '75th Percentile Sales' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			
+			VAR third_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR third_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			VAR third_quartile_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year])
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", third_quartile_sale_internet
+			    , channel = "Store Reseller", third_quartile_sale_store
+			    , third_quartile_sale
+			)
+			```
+		formatString: #,0.00
+		lineageTag: 2205caa2-cb47-4b0d-aedd-ae16213b13f1
+
+	column Value
+		dataType: int64
+		formatString: 0
+		lineageTag: 76b0b8c3-1acb-4d1c-88e0-8a9c47030ec9
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Sales Trend Heat Map Measures' = calculated
+		mode: import
+		source = Row("Value", BLANK())
+
+	annotation PBI_Id = b703479c3ddb481b809e154d77734d24
+

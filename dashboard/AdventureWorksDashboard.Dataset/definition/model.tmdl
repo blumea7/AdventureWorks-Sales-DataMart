@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBIDesktopVersion = 2.126.1261.0 (24.02)
+annotation PBIDesktopVersion = 2.127.1235.0 (24.03)
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -31,4 +31,7 @@ ref table FactInternetSales
 ref table FactStoreSales
 ref table FactUSDExchangeRate
 ref table _Measures
+ref table '_Sales Trend Heat Map Measures'
+ref table Aggregated_FactSales_Daily
+ref table '_Sales Trend Bar Colors'
 

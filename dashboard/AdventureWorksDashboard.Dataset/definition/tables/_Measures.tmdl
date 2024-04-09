@@ -5,11 +5,6 @@ table _Measures
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 3f9be36f-4004-46be-983a-4f7e58ff7b00
 
-	measure 'Net Sales_Internet' = SUM(FactInternetSales[SalesAmount])
-		lineageTag: fde80eee-d629-46ec-81ce-12ee80b80bd2
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	column Value
 		dataType: string
 		lineageTag: 9968fe63-6ca9-4744-8346-44a0300cb78e

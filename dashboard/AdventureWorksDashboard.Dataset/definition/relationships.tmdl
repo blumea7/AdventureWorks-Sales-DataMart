@@ -58,3 +58,9 @@ relationship 246a2aa6-5eab-4b41-be96-538b1e2aa32c
 	fromColumn: FactStoreSales.CustomerKey
 	toColumn: DimCustomerStore.StoreUniqueID
 
+relationship 2531e485-dcda-4165-9f84-b753e30f66e5
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimDate.DateKey
+	toColumn: Aggregated_FactSales_Daily.DateKey
+

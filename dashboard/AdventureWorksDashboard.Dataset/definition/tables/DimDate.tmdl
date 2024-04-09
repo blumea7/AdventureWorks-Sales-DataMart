@@ -204,6 +204,9 @@ table DimDate
 		lineageTag: 39b9fb38-0cdc-4ce7-b32f-83d5ef460e18
 		summarizeBy: none
 		sourceColumn: ShortDayName
+		sortByColumn: DayOfWeek
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 

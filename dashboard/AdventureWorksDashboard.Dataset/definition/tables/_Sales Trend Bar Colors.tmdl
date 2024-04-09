@@ -1,0 +1,27 @@
+table '_Sales Trend Bar Colors'
+	lineageTag: 62686f47-b767-4d38-8f27-de4b2a9ade06
+
+	measure 'Min Year Sale' =
+			
+			
+			MINX(FactInternetSales, [Net Sales])
+		lineageTag: 70a56b45-78f9-4b04-aa5a-b95816e99289
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: string
+		lineageTag: 70b3919f-9e97-4257-b187-cbbd3cdf0731
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Sales Trend Bar Colors' = calculated
+		mode: import
+		source = {"Dummy"}
+
+	annotation PBI_Id = 3ff1383e64bb4f998086e5846a445afc
+
