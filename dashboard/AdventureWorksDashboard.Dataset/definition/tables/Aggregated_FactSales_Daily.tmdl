@@ -94,6 +94,49 @@ table Aggregated_FactSales_Daily
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column 'Internet Quantity Sold' =
+			
+			CALCULATE(
+			    SUM(FactInternetSales[Quantity])
+			    , FILTER(
+			        FactInternetSales
+			        , FactInternetSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+		dataType: int64
+		formatString: 0
+		lineageTag: 71558ff1-a435-41f5-a704-f51445ffd5b7
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Store Quantity Sold' =
+			
+			CALCULATE(
+			    SUM(FactStoreSales[Quantity])
+			    , FILTER(
+			        FactStoreSales
+			        , FactStoreSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+		dataType: int64
+		formatString: 0
+		lineageTag: f0a163fe-901c-4f06-bdb5-ac0a1053475a
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Quantity Sold' = Aggregated_FactSales_Daily[Internet Quantity Sold] + Aggregated_FactSales_Daily[Store Quantity Sold]
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c8620a9-6117-4440-9740-b3f7790fb507
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
 	partition Aggregated_FactSales_Daily = calculated
 		mode: import
 		source = ```

@@ -4,39 +4,14 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 2356.1637956415307,
-        "y": 562.28516093738472
+        "x": 2702.3306687777281,
+        "y": 1920.5665431558109
       },
       "nodes": [
         {
           "location": {
-            "x": 4260,
-            "y": 854.296875
-          },
-          "nodeIndex": "LETTERS",
-          "size": {
-            "height": 200,
-            "width": 234
-          },
-          "zIndex": 4
-        },
-        {
-          "location": {
-            "x": 3949.4301874182138,
-            "y": 854.296875
-          },
-          "nodeIndex": "NUMBERS",
-          "nodeLineageTag": "29e9f968-723d-404e-b17b-76b7854a8a30",
-          "size": {
-            "height": 200,
-            "width": 234
-          },
-          "zIndex": 5
-        },
-        {
-          "location": {
             "x": 993.21349308838694,
-            "y": 1292.6607312674844
+            "y": 3321.6158093924842
           },
           "nodeIndex": "DimChannel",
           "nodeLineageTag": "202850fc-9252-46c4-a1be-f465725674fb",
@@ -49,7 +24,7 @@
         {
           "location": {
             "x": 877.47293499999842,
-            "y": 1042.0823409999994
+            "y": 3071.0374191249994
           },
           "nodeIndex": "DimCurrency",
           "nodeLineageTag": "78070eb0-1792-48b1-b307-d7b8a28dc8a7",
@@ -62,7 +37,7 @@
         {
           "location": {
             "x": 264.80629082780274,
-            "y": 1967.6453716338053
+            "y": 3996.6004497588056
           },
           "nodeIndex": "DimCustomer",
           "nodeLineageTag": "ca93eedb-f520-4031-afa5-589c8a9f5f0a",
@@ -75,7 +50,7 @@
         {
           "location": {
             "x": 1564.853499095105,
-            "y": 1885.6235999591411
+            "y": 3914.5786780841408
           },
           "nodeIndex": "DimCustomerStore",
           "nodeLineageTag": "1c871754-ddec-4bd1-aa38-016b2d2beec3",
@@ -88,7 +63,7 @@
         {
           "location": {
             "x": 563.55627971712579,
-            "y": 1519.254412901304
+            "y": 3548.209491026304
           },
           "nodeIndex": "DimDate",
           "nodeLineageTag": "6448d661-2b52-4093-b265-67be41dcd64a",
@@ -101,7 +76,7 @@
         {
           "location": {
             "x": 264.02604247388365,
-            "y": 2239.4982802221184
+            "y": 4268.4533583471184
           },
           "nodeIndex": "DimGeography",
           "nodeLineageTag": "7884bed3-d3c9-45ad-9715-c57afde1d6c7",
@@ -114,7 +89,7 @@
         {
           "location": {
             "x": 1356.9816329114783,
-            "y": 1525.6696667150979
+            "y": 3554.6247448400982
           },
           "nodeIndex": "DimProduct",
           "nodeLineageTag": "49ba8479-1670-4cd5-9965-6e8833115e47",
@@ -127,7 +102,7 @@
         {
           "location": {
             "x": 563.202053942277,
-            "y": 2545.2511718520582
+            "y": 4574.2062499770582
           },
           "nodeIndex": "DimPromo",
           "nodeLineageTag": "f6de10f8-5735-456a-b637-f647bab29763",
@@ -140,7 +115,7 @@
         {
           "location": {
             "x": 917.37258654066318,
-            "y": 2759.102925518162
+            "y": 4788.058003643162
           },
           "nodeIndex": "DimSalesPerson",
           "nodeLineageTag": "9a293fe1-9c79-481a-b6cf-67527be7c433",
@@ -153,7 +128,7 @@
         {
           "location": {
             "x": 1378.5133719317666,
-            "y": 2555.3307856659412
+            "y": 4584.2858637909412
           },
           "nodeIndex": "DimSalesTerritory",
           "nodeLineageTag": "d5e05df7-3f47-4a51-8169-3fc365a822c3",
@@ -166,7 +141,7 @@
         {
           "location": {
             "x": 864.98897147588139,
-            "y": 1822.1707709545703
+            "y": 3851.1258490795703
           },
           "nodeIndex": "FactInternetSales",
           "nodeLineageTag": "f5385e15-6e82-4bcf-837f-3b15e6e619ba",
@@ -179,7 +154,7 @@
         {
           "location": {
             "x": 1129.2202246289755,
-            "y": 1822.125080056117
+            "y": 3851.080158181117
           },
           "nodeIndex": "FactStoreSales",
           "nodeLineageTag": "3b06a4c6-acc3-4f69-950c-54d79932e4d8",
@@ -192,7 +167,7 @@
         {
           "location": {
             "x": 3408,
-            "y": 854.296875
+            "y": 2883.251953125
           },
           "nodeIndex": "FactUSDExchangeRate",
           "nodeLineageTag": "653cbf6e-d324-4d9d-b590-d41ee853343a",
@@ -205,7 +180,7 @@
         {
           "location": {
             "x": 1855.2383770001259,
-            "y": 1887.4234207574584
+            "y": 3916.3784988824582
           },
           "nodeIndex": "_Measures",
           "nodeLineageTag": "76464ea5-7fe7-4f48-b1e3-e3882cb1f6d0",
@@ -218,7 +193,7 @@
         {
           "location": {
             "x": 256.47704377875851,
-            "y": 1537.2621668244335
+            "y": 3566.2172449494337
           },
           "nodeIndex": "Aggregated_FactSales_Daily",
           "nodeLineageTag": "7de29758-4615-4dc7-8892-679e67eb7c75",
@@ -231,7 +206,7 @@
         {
           "location": {
             "x": 4307.4969137473581,
-            "y": 1244.2481837808109
+            "y": 3273.2032619058109
           },
           "nodeIndex": "_Sales Trend Bar Colors",
           "size": {
@@ -243,9 +218,33 @@
         {
           "location": {
             "x": 4279.9739575261165,
-            "y": 1738.7794337808109
+            "y": 3767.7345119058109
           },
           "nodeIndex": "_Sales Trend Heat Map Measures",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4335.0198699686,
+            "y": 2988.4376369058109
+          },
+          "nodeIndex": "_Sales Amounts Ticker",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4362.5428261898414,
+            "y": 1920.5665431558109
+          },
+          "nodeIndex": "CategoryIcons",
           "size": {
             "height": 200,
             "width": 234
@@ -254,7 +253,7 @@
         }
       ],
       "name": "All tables",
-      "zoomValue": 53.309950338819853,
+      "zoomValue": 61.503142371952237,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

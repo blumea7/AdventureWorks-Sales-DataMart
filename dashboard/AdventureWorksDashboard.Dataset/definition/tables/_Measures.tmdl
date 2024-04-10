@@ -2,11 +2,76 @@ table _Measures
 	lineageTag: 76464ea5-7fe7-4f48-b1e3-e3882cb1f6d0
 
 	measure 'Net Sales' = SUM(FactInternetSales[SalesAmount]) + SUM(FactStoreSales[SalesAmount])
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00
 		lineageTag: 3f9be36f-4004-46be-983a-4f7e58ff7b00
+
+	measure Amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+		lineageTag: 07f2a67b-43a6-484c-83bb-4b845f7be904
+
+	measure Quantity = SUM(FactInternetSales[Quantity]) + SUM(FactStoreSales[Quantity])
+		formatString: 0
+		lineageTag: d9b9f695-5f4b-4a77-bc65-bbf5d9e3451a
+
+	measure 'Sales Trend Amount' =
+			
+			
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , amount = "Quantity", [Quantity]
+			    , amount = "Net Sales", [Net Sales]
+			)
+		lineageTag: 0f50ba65-e8cb-4f7f-8628-2f2b192c30f4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Year Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Year"
+			    , selected_amount = "Quantity", "Quantity by Year"
+			)
+		lineageTag: d172fe42-0b3c-4f60-b159-ed6128257a70
+
+	measure 'Weekday Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Weekday"
+			    , selected_amount = "Quantity", "Quantity by Weekday"
+			)
+		lineageTag: b2871976-d2ea-42d5-b6d5-4aec96270297
+
+	measure 'Day of Month Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Daily Net Sales"
+			    , selected_amount = "Quantity", "Daily Quantity"
+			)
+		lineageTag: f737c10f-c4c9-4d69-9dbb-d138a7f81a9e
 
 	column Value
 		dataType: string
+		isHidden
 		lineageTag: 9968fe63-6ca9-4744-8346-44a0300cb78e
 		summarizeBy: none
 		isNameInferred

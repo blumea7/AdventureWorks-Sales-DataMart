@@ -9,8 +9,74 @@ table '_Sales Trend Bar Colors'
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	measure 'Yearly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = MINX(ALLSELECTED(DimDate[Year]), [Net Sales])
+			VAR max_sales = MAXX(ALLSELECTED(DimDate[Year]), [Net Sales])
+			
+			RETURN 
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			```
+		lineageTag: ae8f41a7-af10-407b-a66b-d35355aac4bc
+
+	measure 'Weekly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = 
+			    CALCULATE(
+			        MINX(ALLSELECTED(DimDate[ShortDayName]), [Net Sales])
+			        ,  ALLEXCEPT(DimDate, DimDate[Year])
+			    )
+			VAR max_sales = 
+			    CALCULATE(
+			        MAXX(ALLSELECTED(DimDate[ShortDayName]), [Net Sales])
+			        ,  ALLEXCEPT(DimDate, DimDate[Year])
+			    )
+			RETURN 
+			
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			
+			```
+		lineageTag: 282d0cca-60dc-4aa2-b932-63de1490582d
+
+	measure 'Monthly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = CALCULATE(
+			                    MINX(ALLSELECTED(DimDate[ShortMonthName]), [Net Sales])
+			                    , ALLEXCEPT(DimDate, DimDate[Year])
+			                )   
+			VAR max_sales = CALCULATE(
+			                    MAXX(ALLSELECTED(DimDate[ShortMonthName]), [Net Sales])
+			                    , ALLEXCEPT(DimDate, DimDate[Year])
+			                )   
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			
+			```
+		lineageTag: 8f112ede-8d3c-4395-a2c8-f1e020d0e30c
+
 	column Value
 		dataType: string
+		isHidden
 		lineageTag: 70b3919f-9e97-4257-b187-cbbd3cdf0731
 		summarizeBy: none
 		isNameInferred
