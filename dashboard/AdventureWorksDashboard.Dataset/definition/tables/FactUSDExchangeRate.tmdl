@@ -69,3 +69,7 @@ table FactUSDExchangeRate
 				in
 				    dbo_FactUSDExchangeRate
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

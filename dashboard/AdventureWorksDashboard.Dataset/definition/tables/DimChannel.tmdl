@@ -76,3 +76,7 @@ table DimChannel
 				in
 				    dbo_DimChannel
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -3,6 +3,7 @@ model Model
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-PH
 	dataAccessOptions
+		fastCombine
 		legacyRedirects
 		returnErrorValuesAsNull
 
@@ -12,7 +13,7 @@ annotation PBIDesktopVersion = 2.127.1235.0 (24.03)
 
 annotation PBI_ProTooling = ["DevMode"]
 
-annotation PBI_QueryOrder = ["DimChannel","DimCurrency","DimCustomerStore","DimCustomer","DimDate","DimGeography","DimProduct","DimPromo","DimSalesPerson","DimSalesTerritory","FactInternetSales","FactStoreSales","FactUSDExchangeRate"]
+annotation PBI_QueryOrder = ["DimChannel","DimCurrency","DimCustomerStore","DimCustomer","DimDate","DimGeography","DimProduct","DimPromo","DimSalesPerson","DimSalesTerritory","FactInternetSales","FactStoreSales","FactUSDExchangeRate","DimCategoryAssets","DimChannelAssets"]
 
 ref table DateTableTemplate_ffa698f4-22cf-40b3-9e3d-14d326021dfd
 ref table DimChannel
@@ -33,5 +34,6 @@ ref table '_Sales Trend Heat Map Measures'
 ref table Aggregated_FactSales_Daily
 ref table '_Sales Trend Bar Colors'
 ref table '_Sales Amounts Ticker'
-ref table CategoryIcons
+ref table DimCategoryAssets
+ref table DimChannelAssets
 

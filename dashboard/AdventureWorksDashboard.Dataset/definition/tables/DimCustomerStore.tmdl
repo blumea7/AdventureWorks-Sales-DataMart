@@ -173,3 +173,7 @@ table DimCustomerStore
 				in
 				    dbo_DimCustomerStore
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

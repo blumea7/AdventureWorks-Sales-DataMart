@@ -300,3 +300,7 @@ table FactStoreSales
 				in
 				    dbo_FactStoreSales
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

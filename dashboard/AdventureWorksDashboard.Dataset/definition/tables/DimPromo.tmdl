@@ -146,3 +146,7 @@ table DimPromo
 				in
 				    dbo_DimPromo
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

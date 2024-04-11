@@ -64,3 +64,13 @@ relationship 2531e485-dcda-4165-9f84-b753e30f66e5
 	fromColumn: DimDate.DateKey
 	toColumn: Aggregated_FactSales_Daily.DateKey
 
+relationship 9315498d-b912-4180-9d35-4a79d5d62e1a
+	fromColumn: DimProduct.Category
+	toColumn: DimCategoryAssets.IconKey
+
+relationship ace13cef-6a5c-4cf4-93a7-3884db264320
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DimChannelAssets.IconKey
+	toColumn: DimChannel.ChannelCode
+

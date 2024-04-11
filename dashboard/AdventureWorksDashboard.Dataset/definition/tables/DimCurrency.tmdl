@@ -66,3 +66,7 @@ table DimCurrency
 				in
 				    dbo_DimCurrency
 
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
