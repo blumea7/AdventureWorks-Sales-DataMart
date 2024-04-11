@@ -1,0 +1,18 @@
+table '_Sales Amounts Ticker'
+	lineageTag: 140b7483-3a65-401d-bd8c-5e0374316ad7
+
+	column Amounts
+		dataType: string
+		lineageTag: a4ed0a72-b539-4b7f-bc2c-18739410c858
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Sales Amounts Ticker' = calculated
+		mode: import
+		source = {"Quantity", "Net Sales"}
+
+	annotation PBI_Id = b3d72bdefffc4a7a842078ae8a7ffae5
+

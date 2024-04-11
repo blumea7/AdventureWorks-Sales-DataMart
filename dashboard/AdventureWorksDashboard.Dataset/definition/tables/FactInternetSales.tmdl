@@ -1,0 +1,306 @@
+table FactInternetSales
+	lineageTag: f5385e15-6e82-4bcf-837f-3b15e6e619ba
+
+	column OrderID
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(25)
+		lineageTag: 5c032cdf-a3c7-46f1-823b-da13623e2958
+		summarizeBy: none
+		sourceColumn: OrderID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderDetailID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a4e8d56e-e889-42d9-b70d-58ef6ddaffeb
+		summarizeBy: count
+		sourceColumn: SalesOrderDetailID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PONumber
+		dataType: string
+		sourceProviderType: nvarchar(25)
+		lineageTag: 9c2b5baa-885e-4d14-b26f-7257c7ac20f6
+		summarizeBy: none
+		sourceColumn: PONumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e902216b-88a6-40c8-a4df-33ae68f98daf
+		summarizeBy: none
+		sourceColumn: ChannelKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4d47adea-0412-4ea1-bf62-bc6c1392a276
+		summarizeBy: none
+		sourceColumn: OrderDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a933c830-6bc0-4aee-90ca-1d9446faaaba
+		summarizeBy: count
+		sourceColumn: DueDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4d8d6bdd-8050-4180-b7e7-7a4ed642f2e5
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a4e72c44-1e1f-4bd4-903e-d042dabd9d92
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesPersonKey
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a78724e7-5b26-422b-ad33-d61af4c26aeb
+		summarizeBy: none
+		sourceColumn: SalesPersonKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 72ef8a48-e471-429d-9b44-5a74dc0320e7
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 81dc323f-e1ce-4b6a-be86-b9e655914619
+		summarizeBy: count
+		sourceColumn: CurrencyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromoKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fb5dbc56-332d-4e64-b822-5e21af4abd41
+		summarizeBy: none
+		sourceColumn: PromoKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TerritoryKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f8f23d3c-eeff-4fbb-ab44-5bdcbfea280f
+		summarizeBy: none
+		sourceColumn: TerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: ad90266d-8f07-443b-b578-ab8fcc93c048
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column Quantity
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: smallint
+		lineageTag: e01b5e72-cc4a-49d9-8072-e6227fb4128f
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column LinePrice
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: 2e60ce0b-ee65-46ce-95e2-9bbe476a0212
+		summarizeBy: sum
+		sourceColumn: LinePrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column Discount
+		dataType: decimal
+		isNullable: false
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: 932135af-372a-4c45-bcd6-5583e5a93fc4
+		summarizeBy: sum
+		sourceColumn: Discount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column UnitPriceDiscount
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: 0561771c-a59c-4f10-adde-4d2e96dc4e05
+		summarizeBy: sum
+		sourceColumn: UnitPriceDiscount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column LineDiscount
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: af454963-7200-44f4-9337-3bd8d467f276
+		summarizeBy: sum
+		sourceColumn: LineDiscount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column SalesAmount
+		dataType: double
+		sourceProviderType: decimal(38, 6)
+		lineageTag: 378fdcd7-b962-423b-992d-83733138a3ec
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TaxAmount
+		dataType: double
+		sourceProviderType: decimal(38, 6)
+		lineageTag: 39f8dcb3-09d3-4a42-ae53-a122a3fd30be
+		summarizeBy: sum
+		sourceColumn: TaxAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Freight
+		dataType: double
+		sourceProviderType: decimal(38, 6)
+		lineageTag: 7e1c0f65-1f7d-4cea-8300-ddcd8baa68e1
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TotalDue
+		dataType: double
+		sourceProviderType: decimal(38, 6)
+		lineageTag: 210ed953-0ab7-4a58-974f-579e02f0f3d1
+		summarizeBy: sum
+		sourceColumn: TotalDue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column UnitProductCost
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: 8bb411b9-7a03-40cb-bb6e-0813a6800450
+		summarizeBy: sum
+		sourceColumn: UnitProductCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column LineProductCost
+		dataType: decimal
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: 7813c923-27dd-4684-8c83-92235cfc264d
+		summarizeBy: sum
+		sourceColumn: LineProductCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column NetProfit
+		dataType: double
+		sourceProviderType: decimal(38, 6)
+		lineageTag: 8fc89ace-d99c-479b-84fb-76a9f73b70d0
+		summarizeBy: sum
+		sourceColumn: NetProfit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactInternetSales = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_FactInternetSales = Source{[Schema="dbo",Item="FactInternetSales"]}[Data]
+				in
+				    dbo_FactInternetSales
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

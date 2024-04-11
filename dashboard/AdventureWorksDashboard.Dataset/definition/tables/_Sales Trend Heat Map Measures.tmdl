@@ -1,0 +1,445 @@
+table '_Sales Trend Heat Map Measures'
+	lineageTag: 0613951b-c88e-4b9f-97a7-50d8c23fad15
+
+	measure 'Min Amount' = ```
+			
+			
+			/*
+			This measure computes the minimum daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			
+			*/
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			VAR min_sale_internet =
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Internet Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_quantity_internet =
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Internet Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_internet_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", min_sale_internet
+			    , amount = "Quantity", min_quantity_internet
+			)
+			
+			VAR min_sale_store = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Store Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_quantity_store = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Store Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_store_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", min_sale_store
+			    , amount = "Quantity", min_quantity_store
+			)
+			
+			VAR min_sale = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Total Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_quantity = 
+			CALCULATE(
+			    MIN(Aggregated_FactSales_Daily[Total Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR min_total_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", min_sale
+			    , amount = "Quantity", min_quantity
+			)
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", min_internet_amounts
+			    , channel = "Store Reseller", min_sale_store
+			    , min_total_amounts
+			)
+			```
+		lineageTag: a11c9188-6f30-47d2-b9a4-0052e421d8d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure daily_sales = ```
+			
+			    CALCULATE(
+			        [Net Sales]
+			        , ALLEXCEPT(DimDate, DimDate[Year], DimDate[Month], DimDate[DayOfMonth])
+			        , ALLEXCEPT(DimChannel, DimChannel[Channel])
+			    )
+			```
+		formatString: #,0.00
+		lineageTag: c0e5d109-67a5-487a-8a6e-6639e1d55b49
+
+	measure 'Max Amount' = ```
+			
+			
+			/*
+			This measure computes the max daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			
+			*/
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			VAR max_sale_internet =
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Internet Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_quantity_internet =
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Internet Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_internet_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", max_sale_internet
+			    , amount = "Quantity", max_quantity_internet
+			)
+			
+			VAR max_sale_store = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Store Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_quantity_store = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Store Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_store_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", max_sale_store
+			    , amount = "Quantity", max_quantity_store
+			)
+			
+			VAR max_total_sale = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Total Sales Amount])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_total_quantity = 
+			CALCULATE(
+			    MAX(Aggregated_FactSales_Daily[Total Quantity Sold])
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR max_total_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", max_total_sale
+			    , amount = "Quantity", max_total_quantity
+			)
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", max_internet_amount
+			    , channel = "Store Reseller", max_store_amount
+			    , max_total_amount
+			)
+			```
+		lineageTag: 7a3b72b8-5f41-4190-a68a-347f1b2ae8cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '25th Percentile Amount' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			VAR first_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_quantity_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Quantity Sold], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_internet_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", first_quartile_sale_internet
+			    , amount = "Quantity", first_quartile_quantity_internet
+			
+			)
+			
+			VAR first_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_quantity_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Quantity Sold], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_store_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", first_quartile_sale_store
+			    , amount = "Quantity", first_quartile_quantity_store
+			)
+			
+			
+			VAR first_quartile_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_quantity = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Quantity Sold], 0.25)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR first_quartile_total_amounts = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", first_quartile_sale
+			    , amount = "Quantity", first_quartile_quantity
+			)
+			
+			
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", first_quartile_internet_amounts
+			    , channel = "Store Reseller", first_quartile_store_amounts
+			    , first_quartile_total_amounts
+			)
+			```
+		lineageTag: 8e61256f-fe39-4495-aed7-2bba711124e5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '50th Percentile Amount' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			VAR second_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_quantity_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Quantity Sold], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_internet_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", second_quartile_sale_internet
+			    , amount = "Quantity", second_quartile_quantity_internet
+			)
+			
+			VAR second_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_quantity_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Quantity Sold], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_store_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", second_quartile_sale_store
+			    , amount = "Quantity", second_quartile_quantity_store
+			)
+			
+			VAR second_quartile_total_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_total_quantity = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Quantity Sold], 0.5)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR second_quartile_total_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", second_quartile_total_sale
+			    , amount = "Quantity", second_quartile_total_quantity
+			)
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", second_quartile_internet_amount
+			    , channel = "Store Reseller", second_quartile_store_amount
+			    , second_quartile_total_amount
+			)
+			```
+		lineageTag: 0b642d99-5aae-4966-bbfc-6ab1682d78c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '75th Percentile Amount' = ```
+			
+			
+			/*
+			This measure computes the 25th percentile daily sale in a year for internet channel, store channel, or both depending on the selected channel.
+			*/
+			
+			VAR channel = SELECTEDVALUE(DimChannel[Channel])
+			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			
+			VAR third_quartile_sale_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_quantity_internet =
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Internet Quantity Sold], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_internet_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", third_quartile_sale_internet
+			    , amount = "Quantity", third_quartile_quantity_internet
+			)
+			
+			
+			VAR third_quartile_sale_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_quantity_store = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Store Quantity Sold], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_store_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", third_quartile_sale_store
+			    , amount = "Quantity", third_quartile_quantity_store
+			)
+			
+			VAR third_quartile_total_sale = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Sales Amount], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_total_quantity = 
+			CALCULATE(
+			    PERCENTILE.EXC(Aggregated_FactSales_Daily[Total Quantity Sold], 0.75)
+			    , ALLEXCEPT(DimDate, DimDate[Year], DimDate[ShortMonthName], DimDate[ShortDayName])
+			)
+			
+			VAR third_quartile_total_amount = 
+			SWITCH(
+			    TRUE()
+			    , amount = "Net Sales", third_quartile_total_sale
+			    , amount = "Quantity", third_quartile_total_quantity
+			)
+			
+			
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , channel = "Internet", third_quartile_internet_amount
+			    , channel = "Store Reseller", third_quartile_store_amount
+			    , third_quartile_total_amount
+			)
+			```
+		formatString: #,0.00
+		lineageTag: 2205caa2-cb47-4b0d-aedd-ae16213b13f1
+
+	measure Measure
+		lineageTag: fbfb8005-0cc0-4e44-9253-e713c944512f
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Measure 2'
+		lineageTag: 4778a8ac-589c-48c4-b5af-6c2d3fe20035
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	column Value
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 76b0b8c3-1acb-4d1c-88e0-8a9c47030ec9
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Sales Trend Heat Map Measures' = calculated
+		mode: import
+		source = Row("Value", BLANK())
+
+	annotation PBI_Id = b703479c3ddb481b809e154d77734d24
+
