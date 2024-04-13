@@ -1,13 +1,5 @@
-table '_Sales Trend Bar Colors'
+table '_Sales Trend Bar Chart Visuals'
 	lineageTag: 62686f47-b767-4d38-8f27-de4b2a9ade06
-
-	measure 'Min Year Sale' =
-			
-			
-			MINX(FactInternetSales, [Net Sales])
-		lineageTag: 70a56b45-78f9-4b04-aa5a-b95816e99289
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure 'Yearly Sales Highlight Color' = ```
 			
@@ -23,6 +15,7 @@ table '_Sales Trend Bar Colors'
 			    , "#4E8CC9"
 			)
 			```
+		displayFolder: Colors
 		lineageTag: ae8f41a7-af10-407b-a66b-d35355aac4bc
 
 	measure 'Weekly Sales Highlight Color' = ```
@@ -48,6 +41,7 @@ table '_Sales Trend Bar Colors'
 			)
 			
 			```
+		displayFolder: Colors
 		lineageTag: 282d0cca-60dc-4aa2-b932-63de1490582d
 
 	measure 'Monthly Sales Highlight Color' = ```
@@ -72,7 +66,53 @@ table '_Sales Trend Bar Colors'
 			)
 			
 			```
+		displayFolder: Colors
 		lineageTag: 8f112ede-8d3c-4395-a2c8-f1e020d0e30c
+
+	measure 'Day of Month Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Daily Net Sales"
+			    , selected_amount = "Quantity", "Daily Quantity"
+			)
+		displayFolder: Titles
+		lineageTag: f737c10f-c4c9-4d69-9dbb-d138a7f81a9e
+
+	measure 'Weekday Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Weekday"
+			    , selected_amount = "Quantity", "Quantity by Weekday"
+			)
+		displayFolder: Titles
+		lineageTag: b2871976-d2ea-42d5-b6d5-4aec96270297
+
+	measure 'Year Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Year"
+			    , selected_amount = "Quantity", "Quantity by Year"
+			)
+		displayFolder: Titles
+		lineageTag: d172fe42-0b3c-4f60-b159-ed6128257a70
 
 	column Value
 		dataType: string
@@ -85,7 +125,7 @@ table '_Sales Trend Bar Colors'
 
 		annotation SummarizationSetBy = Automatic
 
-	partition '_Sales Trend Bar Colors' = calculated
+	partition '_Sales Trend Bar Chart Visuals' = calculated
 		mode: import
 		source = {"Dummy"}
 

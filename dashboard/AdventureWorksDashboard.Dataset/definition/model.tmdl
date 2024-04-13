@@ -32,8 +32,8 @@ ref table FactUSDExchangeRate
 ref table _Measures
 ref table '_Sales Trend Heat Map Measures'
 ref table Aggregated_FactSales_Daily
-ref table '_Sales Trend Bar Colors'
-ref table '_Sales Amounts Ticker'
+ref table '_Sales Trend Bar Chart Visuals'
+ref table '_Amounts Ticker'
 ref table DimCategoryAssets
 ref table DimChannelAssets
 
