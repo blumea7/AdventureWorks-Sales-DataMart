@@ -1,0 +1,76 @@
+table '_Amounts Ticker'
+	lineageTag: 140b7483-3a65-401d-bd8c-5e0374316ad7
+
+	measure Amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+		lineageTag: 07f2a67b-43a6-484c-83bb-4b845f7be904
+
+	measure 'Amount Value' =
+			
+			
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , amount = "Quantity", [Quantity]
+			    , amount = "Net Sales", [Net Sales]
+			    , amount = "Profit", [Profit]
+			    , amount = "COGS", [COGS]
+			)
+		lineageTag: 0f50ba65-e8cb-4f7f-8628-2f2b192c30f4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Amount LY Value' =
+			
+			
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , amount = "Quantity", [Quantity LY]
+			    , amount = "Net Sales", [Net Sales LY]
+			    , amount = "Profit", [Profit LY]
+			    , amount = "COGS", [COGS LY]
+			)
+		lineageTag: cb60ff0b-20a0-49ef-9075-e529416d07c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Amount % Growth' = ```
+			
+			
+			VAR differntial = [Amount Value] - [Amount LY Value]
+			VAR percent_growth = DIVIDE(differntial, [Amount LY Value], 1)
+			
+			RETURN percent_growth
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9dec290a-3d12-4b51-b69f-e97f603b5f47
+
+	measure 'Formatted % Growth' =
+			
+			SWITCH(
+			    TRUE()
+			    , [Amount % Growth] < 0, "▼ " & TRUNC(ABS([Amount % Growth])*100,2) & "%"
+			    , [Amount % Growth] >= 0, "▲ " & TRUNC([Amount % Growth]*100,2) & "%"
+			)
+		lineageTag: b782eb98-2129-4e3f-aaf6-254c7e56be5b
+
+	column Amounts
+		dataType: string
+		lineageTag: a4ed0a72-b539-4b7f-bc2c-18739410c858
+		summarizeBy: none
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Amounts Ticker' = calculated
+		mode: import
+		source = {"Quantity", "Net Sales", "Profit", "COGS"}
+
+	annotation PBI_Id = b3d72bdefffc4a7a842078ae8a7ffae5
+

@@ -9,7 +9,7 @@ table '_Sales Trend Heat Map Measures'
 			
 			*/
 			VAR channel = SELECTEDVALUE(DimChannel[Channel])
-			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
 			
 			VAR min_sale_internet =
 			CALCULATE(
@@ -100,7 +100,7 @@ table '_Sales Trend Heat Map Measures'
 			
 			*/
 			VAR channel = SELECTEDVALUE(DimChannel[Channel])
-			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
 			
 			VAR max_sale_internet =
 			CALCULATE(
@@ -179,7 +179,7 @@ table '_Sales Trend Heat Map Measures'
 			*/
 			
 			VAR channel = SELECTEDVALUE(DimChannel[Channel])
-			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
 			
 			VAR first_quartile_sale_internet =
 			CALCULATE(
@@ -263,7 +263,7 @@ table '_Sales Trend Heat Map Measures'
 			*/
 			
 			VAR channel = SELECTEDVALUE(DimChannel[Channel])
-			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
 			
 			VAR second_quartile_sale_internet =
 			CALCULATE(
@@ -342,7 +342,7 @@ table '_Sales Trend Heat Map Measures'
 			*/
 			
 			VAR channel = SELECTEDVALUE(DimChannel[Channel])
-			VAR amount = SELECTEDVALUE('_Sales Amounts Ticker'[Amounts])
+			VAR amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
 			
 			VAR third_quartile_sale_internet =
 			CALCULATE(
