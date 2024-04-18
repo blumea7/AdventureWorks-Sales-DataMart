@@ -9,7 +9,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBIDesktopVersion = 2.127.1235.0 (24.03)
+annotation PBIDesktopVersion = 2.128.952.0 (24.04)
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -36,4 +36,5 @@ ref table '_Sales Trend Bar Chart Visuals'
 ref table '_Amounts Ticker'
 ref table DimCategoryAssets
 ref table DimChannelAssets
+ref table '_Net Sales per YearlyIncome Visuals'
 
