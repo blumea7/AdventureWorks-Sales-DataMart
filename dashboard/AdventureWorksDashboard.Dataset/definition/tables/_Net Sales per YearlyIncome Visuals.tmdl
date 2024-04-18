@@ -1,0 +1,34 @@
+table '_Net Sales per YearlyIncome Visuals'
+	lineageTag: 7e22737a-1298-4052-a776-19559d3a1abc
+
+	measure 'Bar Color' =
+			
+			
+			VAR min_sales = MINX(ALLSELECTED(DimCustomer[YearlyIncome]), [Net Sales])
+			VAR max_sales = MAXX(ALLSELECTED(DimCustomer[YearlyIncome]), [Net Sales])
+			
+			RETURN
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+		lineageTag: d0c3c6a6-0770-42e4-b61a-d450750b92a0
+
+	column Value
+		dataType: string
+		lineageTag: e00101eb-80b1-4689-91fb-4dde0f812b12
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Net Sales per YearlyIncome Visuals' = calculated
+		mode: import
+		source = {"Dummy"}
+
+	annotation PBI_Id = a54a2e4e600e4d8bbc357f8584ebefd0
+

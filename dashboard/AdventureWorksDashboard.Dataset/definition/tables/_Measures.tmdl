@@ -88,6 +88,28 @@ table _Measures
 		formatString: 0
 		lineageTag: 6060d302-f742-4fa1-b6a2-8d6251304e33
 
+	measure 'Gender Count' = COUNT(DimCustomer[Gender])
+		formatString: 0
+		lineageTag: 0d688b29-84a8-4c64-b087-cd7aa7b063ca
+
+	measure 'Customer Country Count' = COUNT(DimCustomer[GeographyUniqueID])
+		formatString: 0
+		lineageTag: bce26c82-27c0-4cdc-aa10-bd4c8fbfb9fa
+
+	measure 'Customer Country % of Total per Territorry Group' = ```
+			
+			
+			VAR customer_country_count_all = 
+			CALCULATE(
+			    [Customer Country Count]
+			    , ALLEXCEPT(DimCustomer, DimGeography[SalesTerritoryGroup])
+			)
+			
+			RETURN DIVIDE([Customer Country Count], customer_country_count_all)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bb77e9f0-7adc-4121-9409-0d6be05970ac
+
 	column Value
 		dataType: string
 		isHidden
