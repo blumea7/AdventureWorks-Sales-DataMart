@@ -1,0 +1,62 @@
+table DimCategoryAssets
+	lineageTag: 3e8d0ed3-da4b-42c2-a025-3233738a2211
+
+	column Name
+		dataType: string
+		lineageTag: 36a7f6a2-e716-42be-9be6-85fa2555e6b7
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dimension
+		dataType: string
+		lineageTag: 26824cd4-fffa-4022-bf9b-7207600447b6
+		summarizeBy: none
+		sourceColumn: Dimension
+
+		annotation SummarizationSetBy = Automatic
+
+	column IconKey
+		dataType: string
+		lineageTag: 91a7bee2-5e11-4e98-8269-e8985ad18457
+		summarizeBy: none
+		sourceColumn: IconKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Base64
+		dataType: string
+		lineageTag: 0af600c5-409e-47b1-ab30-b795600fb66a
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: Base64
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCategoryAssets = m
+		mode: import
+		source =
+				let
+				    Source = Folder.Files("C:\Users\RPascual - Finance\OneDrive - Sunnies Inc\Desktop\Sales-Data-Mart\AdventureWorks-Sales-DataMart\assets"),
+				    #"Removed Columns" = Table.RemoveColumns(Source,{"Extension", "Date accessed", "Date modified", "Date created", "Attributes"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Removed Columns", "Folder Path", "Folder Path - Copy"),
+				    #"Extracted Text Between Delimiters" = Table.TransformColumns(#"Duplicated Column", {{"Folder Path - Copy", each Text.BetweenDelimiters(_, "\", "\", {0, RelativePosition.FromEnd}, {0, RelativePosition.FromEnd}), type text}}),
+				    #"Extracted Text Before Delimiter" = Table.TransformColumns(#"Extracted Text Between Delimiters", {{"Folder Path - Copy", each Text.BeforeDelimiter(_, "-"), type text}}),
+				    #"Capitalized Each Word" = Table.TransformColumns(#"Extracted Text Before Delimiter",{{"Folder Path - Copy", Text.Proper, type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Capitalized Each Word",{{"Folder Path - Copy", "Dimension"}}),
+				    #"Duplicated Column1" = Table.DuplicateColumn(#"Renamed Columns", "Name", "IconKey"),
+				    #"Extracted Text Before Delimiter1" = Table.TransformColumns(#"Duplicated Column1", {{"IconKey", each Text.BeforeDelimiter(_, "-"), type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Extracted Text Before Delimiter1", "IconKey 2", each if [Dimension] = "Category" then Text.Proper([IconKey]) else if [Dimension] = "Channel" then Text.Upper([IconKey])
+				else [Dimension] = ""),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"IconKey 2", type text}}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Changed Type",{"Folder Path", "IconKey"}),
+				    #"Base64" = Table.AddColumn(#"Removed Columns1", "Base64", each "data:image/png;base64," & Binary.ToText([Content], BinaryEncoding.Base64), type text),
+				    #"Removed Columns2" = Table.RemoveColumns(Base64,{"Content"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns2",{{"IconKey 2", "IconKey"}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Renamed Columns1", each ([Dimension] = "Category"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+

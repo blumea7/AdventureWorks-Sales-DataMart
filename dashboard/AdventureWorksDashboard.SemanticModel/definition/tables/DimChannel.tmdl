@@ -1,0 +1,80 @@
+table DimChannel
+	lineageTag: 202850fc-9252-46c4-a1be-f465725674fb
+
+	column UniqueChannelID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4949a4e7-216e-4133-893f-90260697cb04
+		summarizeBy: none
+		sourceColumn: UniqueChannelID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ChannelCode
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(5)
+		lineageTag: ea1a09f3-3b5d-4c83-8a87-b6118d4121ca
+		summarizeBy: none
+		sourceColumn: ChannelCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Channel
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 22f9c2a6-c753-4cb3-a218-1c9b79448c65
+		summarizeBy: none
+		sourceColumn: Channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnlineOrderFlag
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 749aabcf-4bec-4a51-9241-d8b71c5cf66e
+		summarizeBy: sum
+		sourceColumn: OnlineOrderFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 2772ec2f-8086-4063-8619-275045b186d6
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 9fc827dc-fb52-402c-8a7e-eab1cff244e7
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimChannel = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimChannel = Source{[Schema="dbo",Item="DimChannel"]}[Data]
+				in
+				    dbo_DimChannel
+
+	annotation PBI_ResultType = Table
+

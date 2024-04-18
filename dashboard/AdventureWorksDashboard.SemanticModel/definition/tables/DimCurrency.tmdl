@@ -1,0 +1,70 @@
+table DimCurrency
+	lineageTag: 78070eb0-1792-48b1-b307-d7b8a28dc8a7
+
+	column CurrencyUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 0d34d641-0db9-4939-a9a6-4bf073c9453a
+		summarizeBy: count
+		sourceColumn: CurrencyUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyCode
+		dataType: string
+		isNullable: false
+		sourceProviderType: nchar
+		lineageTag: 4588d189-f84a-41eb-9a81-821077880f9d
+		summarizeBy: none
+		sourceColumn: CurrencyCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Currency
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 9fa11772-7c85-4b7f-921b-7ecd5dace9c4
+		summarizeBy: none
+		sourceColumn: Currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: de5385b7-da90-4a60-b03b-da0611b112de
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 43ac643f-3360-44fe-9834-abeb2e209074
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimCurrency = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimCurrency = Source{[Schema="dbo",Item="DimCurrency"]}[Data]
+				in
+				    dbo_DimCurrency
+
+	annotation PBI_ResultType = Table
+

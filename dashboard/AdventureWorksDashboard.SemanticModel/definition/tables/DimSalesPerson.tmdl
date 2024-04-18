@@ -1,0 +1,192 @@
+table DimSalesPerson
+	lineageTag: 9a293fe1-9c79-481a-b6cf-67527be7c433
+
+	column SalesPersonUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 1cf0594d-6340-4893-8fd8-84e6c1743911
+		summarizeBy: none
+		sourceColumn: SalesPersonUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstName
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: a110b367-184f-4220-b73a-e04cda2f97e1
+		summarizeBy: none
+		sourceColumn: FirstName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MiddleName
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 634da204-4fc5-4a28-bb85-47e0f65122b2
+		summarizeBy: none
+		sourceColumn: MiddleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastName
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 1fdfbc80-d831-41fe-8f2b-0e39d0066532
+		summarizeBy: none
+		sourceColumn: LastName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FullName
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(150)
+		lineageTag: 2eae35f8-8ef6-46cc-b178-d5a1c0f5ed8b
+		summarizeBy: none
+		sourceColumn: FullName
+
+		annotation SummarizationSetBy = Automatic
+
+	column NameSuffix
+		dataType: string
+		sourceProviderType: nvarchar(10)
+		lineageTag: 03a7333c-3630-4899-8dc8-d0ae9189ac41
+		summarizeBy: none
+		sourceColumn: NameSuffix
+
+		annotation SummarizationSetBy = Automatic
+
+	column JobTitle
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 58367552-6f8d-4ec8-bc64-671399a2a66c
+		summarizeBy: none
+		sourceColumn: JobTitle
+
+		annotation SummarizationSetBy = Automatic
+
+	column BirthDate
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: d3b75739-e58d-4f5c-a0dd-d0b27c20d1b1
+		summarizeBy: none
+		sourceColumn: BirthDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column GenderCode
+		dataType: string
+		sourceProviderType: nchar
+		lineageTag: bd730a32-b5c7-419a-b438-9fe178bfc64a
+		summarizeBy: none
+		sourceColumn: GenderCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Gender
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(10)
+		lineageTag: 6e63dbf0-543c-4564-8bf4-45cfcb7c4714
+		summarizeBy: none
+		sourceColumn: Gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column PhoneNumber
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(25)
+		lineageTag: 29aee07c-32b2-4470-924d-0c3ef00687ef
+		summarizeBy: none
+		sourceColumn: PhoneNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmailAddress
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: b241c718-7d85-4383-a75f-d405db873c0c
+		summarizeBy: none
+		sourceColumn: EmailAddress
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesQuota
+		dataType: double
+		sourceProviderType: float
+		lineageTag: f3673941-3a17-46e7-ac7d-1f3ee101328b
+		summarizeBy: sum
+		sourceColumn: SalesQuota
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Bonus
+		dataType: double
+		isNullable: false
+		sourceProviderType: float
+		lineageTag: bcacf78a-ff2b-45ea-8438-d6c1fb506177
+		summarizeBy: sum
+		sourceColumn: Bonus
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CommissionPct
+		dataType: double
+		isNullable: false
+		sourceProviderType: float
+		lineageTag: 4dd69cb8-5c50-4899-94fd-665ecbdd5b07
+		summarizeBy: sum
+		sourceColumn: CommissionPct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: f093ec77-5e3f-4bb3-beb9-27793b538388
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: ee0064ed-94ab-45d0-8d66-bbc8bdb36186
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimSalesPerson = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimSalesPerson = Source{[Schema="dbo",Item="DimSalesPerson"]}[Data]
+				in
+				    dbo_DimSalesPerson
+
+	annotation PBI_ResultType = Table
+

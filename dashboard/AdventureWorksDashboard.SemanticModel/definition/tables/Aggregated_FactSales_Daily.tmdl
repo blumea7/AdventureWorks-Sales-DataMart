@@ -1,0 +1,155 @@
+table Aggregated_FactSales_Daily
+	lineageTag: 7de29758-4615-4dc7-8892-679e67eb7c75
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f881fee5-97f9-4f24-8c72-ecb7f84c8a53
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: DimDate[DateKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 29a8d55a-e674-4da9-b49e-a1dbe8849dec
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: DimDate[Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShortMonthName
+		dataType: string
+		lineageTag: 3ce1a6ce-ad73-45f1-9e3e-c824d6e0a708
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: DimDate[ShortMonthName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth
+		dataType: int64
+		formatString: 0
+		lineageTag: 2d3510d4-b4bc-4848-af3f-8895f907fc76
+		summarizeBy: sum
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: DimDate[DayOfMonth]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Internet Sales Amount' = ```
+			
+			CALCULATE(
+			    SUM(FactInternetSales[SalesAmount])
+			    , FILTER(
+			        FactInternetSales
+			        , FactInternetSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+			
+			```
+		dataType: double
+		lineageTag: 4ef25955-0dfb-4e37-9a43-062e524d3b2b
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Store Sales Amount' = ```
+			
+			CALCULATE(
+			    SUM(FactStoreSales[SalesAmount])
+			    , FILTER(
+			        FactStoreSales
+			        , FactStoreSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+			
+			```
+		dataType: double
+		lineageTag: 81c3de4a-d40c-4bf3-8fb7-c184c6abf414
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Total Sales Amount' = Aggregated_FactSales_Daily[Internet Sales Amount] + Aggregated_FactSales_Daily[Store Sales Amount]
+		dataType: double
+		lineageTag: b4795c8a-f6a7-4eb4-b4e7-ee551fc7f575
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Internet Quantity Sold' =
+			
+			CALCULATE(
+			    SUM(FactInternetSales[Quantity])
+			    , FILTER(
+			        FactInternetSales
+			        , FactInternetSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+		dataType: int64
+		formatString: 0
+		lineageTag: 71558ff1-a435-41f5-a704-f51445ffd5b7
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Store Quantity Sold' =
+			
+			CALCULATE(
+			    SUM(FactStoreSales[Quantity])
+			    , FILTER(
+			        FactStoreSales
+			        , FactStoreSales[OrderDateKey] = Aggregated_FactSales_Daily[DateKey]
+			    )
+			)
+		dataType: int64
+		formatString: 0
+		lineageTag: f0a163fe-901c-4f06-bdb5-ac0a1053475a
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Total Quantity Sold' = Aggregated_FactSales_Daily[Internet Quantity Sold] + Aggregated_FactSales_Daily[Store Quantity Sold]
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c8620a9-6117-4440-9740-b3f7790fb507
+		summarizeBy: sum
+		isDataTypeInferred
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Aggregated_FactSales_Daily = calculated
+		mode: import
+		source = ```
+				
+				
+				SUMMARIZE(
+				    DimDate 
+				    , DimDate[DateKey]
+				    , DimDate[Year]
+				    , DimDate[ShortMonthName]
+				    , DimDate[DayOfMonth]
+				)
+				```
+
+	annotation PBI_Id = 2f0d455775aa45a5a545ef184b822dec
+
