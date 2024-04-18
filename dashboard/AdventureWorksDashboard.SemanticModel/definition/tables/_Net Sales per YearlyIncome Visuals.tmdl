@@ -4,14 +4,14 @@ table '_Net Sales per YearlyIncome Visuals'
 	measure 'Bar Color' =
 			
 			
-			VAR min_sales = MINX(ALLSELECTED(DimCustomer[YearlyIncome]), [Net Sales])
-			VAR max_sales = MAXX(ALLSELECTED(DimCustomer[YearlyIncome]), [Net Sales])
+			VAR min_sales = MINX(ALLSELECTED(DimCustomer[YearlyIncome]), [Internet Net Sales])
+			VAR max_sales = MAXX(ALLSELECTED(DimCustomer[YearlyIncome]), [Internet Net Sales])
 			
 			RETURN
 			SWITCH(
 			    TRUE()
-			    , [Net Sales] = min_sales, "#F7A8A8"
-			    , [Net Sales] = max_sales, "#8BC34A"
+			    , [Internet Net Sales] = min_sales, "#F7A8A8"
+			    , [Internet Net Sales] = max_sales, "#8BC34A"
 			    , "#4E8CC9"
 			)
 		lineageTag: d0c3c6a6-0770-42e4-b61a-d450750b92a0

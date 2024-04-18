@@ -1,7 +1,7 @@
 table _Measures
 	lineageTag: 76464ea5-7fe7-4f48-b1e3-e3882cb1f6d0
 
-	measure 'Net Sales' = SUM(FactInternetSales[SalesAmount]) + SUM(FactStoreSales[SalesAmount])
+	measure 'Net Sales' = [Internet Net Sales] + [Store Net Sales]
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 3f9be36f-4004-46be-983a-4f7e58ff7b00
 
@@ -88,11 +88,7 @@ table _Measures
 		formatString: 0
 		lineageTag: 6060d302-f742-4fa1-b6a2-8d6251304e33
 
-	measure 'Gender Count' = COUNT(DimCustomer[Gender])
-		formatString: 0
-		lineageTag: 0d688b29-84a8-4c64-b087-cd7aa7b063ca
-
-	measure 'Customer Count' = COUNT(DimCustomer[CustomerUniqueID])
+	measure 'Customer Count' = DISTINCTCOUNT(FactInternetSales[CustomerKey])
 		formatString: 0
 		lineageTag: bce26c82-27c0-4cdc-aa10-bd4c8fbfb9fa
 
@@ -110,19 +106,12 @@ table _Measures
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: bb77e9f0-7adc-4121-9409-0d6be05970ac
 
-	measure 'Measure 3'
-		lineageTag: 54aca113-7fbb-4503-b962-119cb26c2f8d
-
-		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
-
-	measure 'Store Count' = DISTINCTCOUNT(DimCustomerStore[StoreUniqueID])
+	measure 'Store Count' = ```
+			DISTINCTCOUNT(FactStoreSales[CustomerKey])
+			
+			```
 		formatString: 0
 		lineageTag: 709db15c-127b-4edb-828f-8f19a7198ce2
-
-	measure 'Measure 4'
-		lineageTag: aa52802b-bde9-45b9-b08b-1394ca8d8ee0
-
-		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
 
 	measure 'Store % per Territory Group' = ```
 			
@@ -139,8 +128,18 @@ table _Measures
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 81812429-e9d7-420d-832d-033570967f76
 
-	measure 'Avg Store Sales' = DIVIDE([Net Sales], [Store Count])
+	measure 'Avg Store Sales' = DIVIDE([Store Net Sales], [Store Count])
 		lineageTag: eaaccbe4-125e-4e30-afc2-1c2e080c9b10
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Internet Net Sales' = SUM(FactInternetSales[SalesAmount])
+		lineageTag: 14ffcfe7-95ee-437f-959b-90ee2a501b95
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store Net Sales' = SUM(FactStoreSales[SalesAmount])
+		lineageTag: 7cf83cf1-0537-42bd-b216-9b8e589b1335
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
