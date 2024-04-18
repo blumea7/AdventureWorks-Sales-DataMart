@@ -1,0 +1,162 @@
+table _Measures
+	lineageTag: 76464ea5-7fe7-4f48-b1e3-e3882cb1f6d0
+
+	measure 'Net Sales' = [Internet Net Sales] + [Store Net Sales]
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3f9be36f-4004-46be-983a-4f7e58ff7b00
+
+	measure Quantity = SUM(FactInternetSales[Quantity]) + SUM(FactStoreSales[Quantity])
+		formatString: 0
+		lineageTag: d9b9f695-5f4b-4a77-bc65-bbf5d9e3451a
+
+	measure Profit = SUM(FactInternetSales[NetProfit]) + SUM(FactStoreSales[NetProfit])
+		lineageTag: 507ef44a-d898-4834-8f00-a6a7f3d9eab7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure COGS = SUM(FactInternetSales[LineProductCost]) + SUM(FactStoreSales[LineProductCost])
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		lineageTag: 31f1de8e-e257-4044-86ed-06e885511a21
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	measure 'COGS LY' = ```
+			
+			VAR selected_year = SELECTEDVALUE(DimDate[Year]) 
+			
+			RETURN 
+			CALCULATE(
+			    [COGS]
+			    , FILTER(
+			        ALL(DimDate)
+			        , DimDate[Year] = selected_year - 1
+			    ) 
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 77028da1-26c1-465b-b178-963341ebf8a8
+
+	measure 'Net Sales LY' = ```
+			
+			VAR selected_year = SELECTEDVALUE(DimDate[Year]) 
+			
+			RETURN 
+			CALCULATE(
+			    [Net Sales]
+			    , FILTER(
+			        ALL(DimDate)
+			        , DimDate[Year] = selected_year - 1
+			    ) 
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 61dc47dc-784b-4941-abc5-f270f0ccde25
+
+	measure 'Profit LY' = ```
+			
+			VAR selected_year = SELECTEDVALUE(DimDate[Year]) 
+			
+			RETURN 
+			CALCULATE(
+			    [Profit]
+			    , FILTER(
+			        ALL(DimDate)
+			        , DimDate[Year] = selected_year - 1
+			    ) 
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: d0b51fec-6f97-47fe-b8cc-88c823c083dc
+
+	measure 'Quantity LY' = ```
+			
+			VAR selected_year = SELECTEDVALUE(DimDate[Year]) 
+			
+			RETURN 
+			CALCULATE(
+			    [Quantity]
+			    , FILTER(
+			        ALL(DimDate)
+			        , DimDate[Year] = selected_year - 1
+			    ) 
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b7199986-8bfe-4f18-8aef-9f88af3b8394
+
+	measure Base = 0
+		formatString: 0
+		lineageTag: 6060d302-f742-4fa1-b6a2-8d6251304e33
+
+	measure 'Customer Count' = DISTINCTCOUNT(FactInternetSales[CustomerKey])
+		formatString: 0
+		lineageTag: bce26c82-27c0-4cdc-aa10-bd4c8fbfb9fa
+
+	measure 'Customer % per Territorry Group' = ```
+			
+			
+			VAR customer_country_count_all = 
+			CALCULATE(
+			    [Customer Count]
+			    , ALLEXCEPT(DimCustomer, DimGeography[SalesTerritoryGroup])
+			)
+			
+			RETURN DIVIDE([Customer Count], customer_country_count_all)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bb77e9f0-7adc-4121-9409-0d6be05970ac
+
+	measure 'Store Count' = ```
+			DISTINCTCOUNT(FactStoreSales[CustomerKey])
+			
+			```
+		formatString: 0
+		lineageTag: 709db15c-127b-4edb-828f-8f19a7198ce2
+
+	measure 'Store % per Territory Group' = ```
+			
+			
+			VAR all_stores_count_per_territory_group = 
+			CALCULATE(
+			    COUNT(DimCustomerStore[StoreUniqueID])
+			    , ALLEXCEPT(DimSalesTerritory, DimSalesTerritory[TerritoryGroup])
+			)
+			
+			RETURN
+			DIVIDE([Store Count], all_stores_count_per_territory_group) 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 81812429-e9d7-420d-832d-033570967f76
+
+	measure 'Avg Store Sales' = DIVIDE([Store Net Sales], [Store Count])
+		lineageTag: eaaccbe4-125e-4e30-afc2-1c2e080c9b10
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Internet Net Sales' = SUM(FactInternetSales[SalesAmount])
+		lineageTag: 14ffcfe7-95ee-437f-959b-90ee2a501b95
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Store Net Sales' = SUM(FactStoreSales[SalesAmount])
+		lineageTag: 7cf83cf1-0537-42bd-b216-9b8e589b1335
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Value
+		dataType: string
+		isHidden
+		lineageTag: 9968fe63-6ca9-4744-8346-44a0300cb78e
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = {"Dummy"}
+
+	annotation PBI_Id = f3521f79d45b411c8bba6d85c10bd68a
+

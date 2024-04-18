@@ -1,0 +1,136 @@
+table DimGeography
+	lineageTag: 7884bed3-d3c9-45ad-9715-c57afde1d6c7
+
+	column GeographyUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 88c25348-0459-4f82-b582-39e9a6fe3bce
+		summarizeBy: none
+		sourceColumn: GeographyUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(30)
+		lineageTag: 567170c5-e59f-415f-a6d2-43d18a99c73d
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateCode
+		dataType: string
+		sourceProviderType: nvarchar(3)
+		lineageTag: 6f596820-066c-4fbf-98ae-6e2363fb1bda
+		summarizeBy: none
+		sourceColumn: StateCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: bcfdaa1a-22c8-4ca1-923e-ca7bc32387c9
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column City-State
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(80)
+		lineageTag: 640b439c-467e-4800-b417-781dcfee18fe
+		summarizeBy: none
+		sourceColumn: City-State
+
+		annotation SummarizationSetBy = Automatic
+
+	column CountryCode
+		dataType: string
+		sourceProviderType: nvarchar(3)
+		lineageTag: 447c0a1f-bd1c-49b2-af31-8972a7ba2ea6
+		summarizeBy: none
+		sourceColumn: CountryCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: 01f09611-9f9c-474e-87a9-bb2a8fd27fcf
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritory
+		dataType: string
+		sourceProviderType: nvarchar(50)
+		lineageTag: b728c990-9a7c-4442-8d3a-52d06625f97c
+		summarizeBy: none
+		sourceColumn: SalesTerritory
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryGroup
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(50)
+		lineageTag: 03fcc692-a46f-41e1-8ca4-980b03a887e0
+		summarizeBy: none
+		sourceColumn: SalesTerritoryGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	column PostalCode
+		dataType: string
+		isNullable: false
+		sourceProviderType: nvarchar(15)
+		lineageTag: ab5e81f8-ab3c-46cb-bf33-2ee2a05c3208
+		summarizeBy: none
+		sourceColumn: PostalCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateCreated
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: 93a6dcb7-5a6a-4ad2-a6ba-d8581c028a2d
+		summarizeBy: none
+		sourceColumn: DateCreated
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DateModified
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: bfeb9615-961b-448b-9196-d98ddd912f89
+		summarizeBy: none
+		sourceColumn: DateModified
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition DimGeography = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimGeography = Source{[Schema="dbo",Item="DimGeography"]}[Data]
+				in
+				    dbo_DimGeography
+
+	annotation PBI_ResultType = Table
+

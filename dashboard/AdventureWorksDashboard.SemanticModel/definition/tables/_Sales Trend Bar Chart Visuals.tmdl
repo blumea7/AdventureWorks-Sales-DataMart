@@ -1,0 +1,133 @@
+table '_Sales Trend Bar Chart Visuals'
+	lineageTag: 62686f47-b767-4d38-8f27-de4b2a9ade06
+
+	measure 'Yearly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = MINX(ALLSELECTED(DimDate[Year]), [Net Sales])
+			VAR max_sales = MAXX(ALLSELECTED(DimDate[Year]), [Net Sales])
+			
+			RETURN 
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			```
+		displayFolder: Colors
+		lineageTag: ae8f41a7-af10-407b-a66b-d35355aac4bc
+
+	measure 'Weekly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = 
+			    CALCULATE(
+			        MINX(ALLSELECTED(DimDate[ShortDayName]), [Net Sales])
+			        ,  ALLEXCEPT(DimDate, DimDate[Year])
+			    )
+			VAR max_sales = 
+			    CALCULATE(
+			        MAXX(ALLSELECTED(DimDate[ShortDayName]), [Net Sales])
+			        ,  ALLEXCEPT(DimDate, DimDate[Year])
+			    )
+			RETURN 
+			
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			
+			```
+		displayFolder: Colors
+		lineageTag: 282d0cca-60dc-4aa2-b932-63de1490582d
+
+	measure 'Monthly Sales Highlight Color' = ```
+			
+			
+			VAR min_sales = CALCULATE(
+			                    MINX(ALLSELECTED(DimDate[ShortMonthName]), [Net Sales])
+			                    , ALLEXCEPT(DimDate, DimDate[Year])
+			                )   
+			VAR max_sales = CALCULATE(
+			                    MAXX(ALLSELECTED(DimDate[ShortMonthName]), [Net Sales])
+			                    , ALLEXCEPT(DimDate, DimDate[Year])
+			                )   
+			
+			RETURN 
+			
+			SWITCH(
+			    TRUE()
+			    , [Net Sales] = min_sales, "#F7A8A8"
+			    , [Net Sales] = max_sales, "#8BC34A"
+			    , "#4E8CC9"
+			)
+			
+			```
+		displayFolder: Colors
+		lineageTag: 8f112ede-8d3c-4395-a2c8-f1e020d0e30c
+
+	measure 'Day of Month Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Daily Net Sales"
+			    , selected_amount = "Quantity", "Daily Quantity"
+			)
+		displayFolder: Titles
+		lineageTag: f737c10f-c4c9-4d69-9dbb-d138a7f81a9e
+
+	measure 'Weekday Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Weekday"
+			    , selected_amount = "Quantity", "Quantity by Weekday"
+			)
+		displayFolder: Titles
+		lineageTag: b2871976-d2ea-42d5-b6d5-4aec96270297
+
+	measure 'Year Bar Chart Title' =
+			
+			
+			VAR selected_amount = SELECTEDVALUE('_Amounts Ticker'[Amounts])
+			
+			RETURN
+			
+			SWITCH(
+			    TRUE()
+			    , selected_amount = "Net Sales", "Net Sales by Year"
+			    , selected_amount = "Quantity", "Quantity by Year"
+			)
+		displayFolder: Titles
+		lineageTag: d172fe42-0b3c-4f60-b159-ed6128257a70
+
+	column Value
+		dataType: string
+		isHidden
+		lineageTag: 70b3919f-9e97-4257-b187-cbbd3cdf0731
+		summarizeBy: none
+		isNameInferred
+		isDataTypeInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '_Sales Trend Bar Chart Visuals' = calculated
+		mode: import
+		source = {"Dummy"}
+
+	annotation PBI_Id = 3ff1383e64bb4f998086e5846a445afc
+

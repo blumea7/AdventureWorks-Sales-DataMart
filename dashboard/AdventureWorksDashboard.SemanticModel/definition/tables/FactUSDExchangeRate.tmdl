@@ -1,0 +1,73 @@
+table FactUSDExchangeRate
+	lineageTag: 653cbf6e-d324-4d9d-b590-d41ee853343a
+
+	column RateDateKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9258ae55-28b1-44a9-b7f8-9c8da732e8d7
+		summarizeBy: count
+		sourceColumn: RateDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RateDate
+		dataType: dateTime
+		isNullable: false
+		formatString: General Date
+		sourceProviderType: datetime
+		lineageTag: f6dfa8b5-2904-491f-bf77-eb8361712d53
+		summarizeBy: none
+		sourceColumn: RateDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyUniqueID
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: c0df6490-98c4-45f0-b745-eb83347d79e3
+		summarizeBy: count
+		sourceColumn: CurrencyUniqueID
+
+		annotation SummarizationSetBy = Automatic
+
+	column AverageRate
+		dataType: decimal
+		isNullable: false
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: dddc90f0-14a1-410d-af55-3a456e25da27
+		summarizeBy: sum
+		sourceColumn: AverageRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	column EndOfDayRate
+		dataType: decimal
+		isNullable: false
+		formatString: "₱"#,0.###############;-"₱"#,0.###############;"₱"#,0.###############
+		sourceProviderType: money
+		lineageTag: ff6cdb50-bdcb-4e17-a8dd-81c4c3a4947f
+		summarizeBy: sum
+		sourceColumn: EndOfDayRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-PH"}
+
+	partition FactUSDExchangeRate = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_FactUSDExchangeRate = Source{[Schema="dbo",Item="FactUSDExchangeRate"]}[Data]
+				in
+				    dbo_FactUSDExchangeRate
+
+	annotation PBI_ResultType = Exception
+

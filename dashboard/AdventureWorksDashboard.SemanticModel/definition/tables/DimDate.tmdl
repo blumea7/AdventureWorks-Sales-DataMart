@@ -1,0 +1,254 @@
+table DimDate
+	lineageTag: 6448d661-2b52-4093-b265-67be41dcd64a
+
+	column DateKey
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ad30a8d5-350d-44bb-ab32-cad8ceb45da2
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		isNullable: false
+		formatString: Long Date
+		sourceProviderType: date
+		lineageTag: b24fe7c3-bbd1-4478-ae9e-0fe44989bd7f
+		summarizeBy: none
+		sourceColumn: Date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9ee68eeb-a3bf-41e6-9b4b-6d86130bc82b
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearHalfID
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: 542f55f0-bd6f-4d46-9724-fc18a5f0fd10
+		summarizeBy: none
+		sourceColumn: YearHalfID
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearHalf
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e8f3c5ee-9d48-4bc3-bb5f-f411ac6601c1
+		summarizeBy: sum
+		sourceColumn: YearHalf
+
+		annotation SummarizationSetBy = Automatic
+
+	column QuarterID
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: 65ea1431-3384-4e39-ab05-cd72710db629
+		summarizeBy: none
+		sourceColumn: QuarterID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a5a6ae84-962d-4615-a6b4-9de60e0f26ec
+		summarizeBy: sum
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthID
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: bdd3a166-e0c1-49ac-a56e-c5c852c4a20f
+		summarizeBy: none
+		sourceColumn: MonthID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 7f5ecf4a-77c7-4b70-96d1-40130a0169c3
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		isNullable: false
+		sourceProviderType: varchar(10)
+		lineageTag: b7ba7d30-83be-41c8-a2db-f2796b3fa9ee
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShortMonthName
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: 64bc4ec9-0d25-49a4-a695-4572ee473c19
+		summarizeBy: none
+		sourceColumn: ShortMonthName
+		sortByColumn: Month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekID
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: 83daae0a-cb6a-490d-bbed-38f6fb3a4fe1
+		summarizeBy: none
+		sourceColumn: WeekID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekofYear
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9ed273fe-100e-49b8-9863-319977ac5b37
+		summarizeBy: sum
+		sourceColumn: WeekofYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekofMonth
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e7efc4bd-24a4-4952-91a4-fa86c24ed1cb
+		summarizeBy: sum
+		sourceColumn: WeekofMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfYear
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b51b6f53-8db5-48bf-bfda-82c770c245b6
+		summarizeBy: sum
+		sourceColumn: DayOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfMonth
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 7fbd8c7f-17f5-4f50-968b-4cc80b6c7ac2
+		summarizeBy: sum
+		sourceColumn: DayOfMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: int64
+		isNullable: false
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: cd2ee34f-6067-4462-8c0d-2a2d6a1643c0
+		summarizeBy: sum
+		sourceColumn: DayOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayName
+		dataType: string
+		isNullable: false
+		sourceProviderType: varchar(10)
+		lineageTag: 9af7cc33-e85a-4d1d-93e8-77a46aa01614
+		summarizeBy: none
+		sourceColumn: DayName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShortDayName
+		dataType: string
+		isNullable: false
+		sourceProviderType: char
+		lineageTag: 39b9fb38-0cdc-4ce7-b32f-83d5ef460e18
+		summarizeBy: none
+		sourceColumn: ShortDayName
+		sortByColumn: DayOfWeek
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentDayIndicator
+		dataType: string
+		isNullable: false
+		sourceProviderType: varchar(16)
+		lineageTag: 5c2f9c4c-4e68-4403-92cf-5fcf91cb68da
+		summarizeBy: none
+		sourceColumn: CurrentDayIndicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column HolidayIndicator
+		dataType: string
+		isNullable: false
+		sourceProviderType: varchar(15)
+		lineageTag: 61439425-4568-45f2-923c-27c4f33ee721
+		summarizeBy: none
+		sourceColumn: HolidayIndicator
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsOnOrBeforeCurrentDay
+		dataType: string
+		isNullable: false
+		sourceProviderType: varchar(3)
+		lineageTag: 76d7a65d-b5be-443f-834a-a48a56beb6fc
+		summarizeBy: none
+		sourceColumn: IsOnOrBeforeCurrentDay
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: directQuery
+		source =
+				let
+				    Source = Sql.Database("LAPTOP-P59QS1TG", "MAU_AdventureWorks2022_DW"),
+				    dbo_DimDate = Source{[Schema="dbo",Item="DimDate"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(dbo_DimDate,{"DateKey", "Date", "Year", "YearHalfID", "YearHalf", "QuarterID", "Quarter", "MonthID", "Month", "MonthName", "ShortMonthName", "WeekID", "WeekofYear", "WeekofMonth", "DayOfYear", "DayOfMonth", "DayOfWeek", "DayName", "ShortDayName", "CurrentDayIndicator", "IsOnOrBeforeCurrentDay", "HolidayIndicator"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_ResultType = Table
+
