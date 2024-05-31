@@ -6,7 +6,27 @@ OLTP and Data Warehouse, which you may access [here](https://learn.microsoft.com
 
 ### Data Mart Setup
 -------------------
----
+This project converts the AdventureWorks OLTP database provided by Microsoft to a Star Schema format. 
+
+To create the star schema database, run the following SQL scripts in order 
+1. CreateDataTypes.sql
+2. CreateNumbersTable.sql
+3. CreateDimDate.sql
+4. CreateDimChannel.sql
+5. CreateDimProduct.sql
+6. CreateDimPromo.sql
+7. CreateDimCurrency.sql
+8. CreateDimGeography.sql
+9. CreateCustomerDemographicsView.sql
+10. CreateStoreDemographicsView.sql
+11. CreateDimSalesPerson.sql
+12. CreateDimSalesTerritory.sql
+13. CreateDimCustomer.sql
+14. CreateDimCustomerStore.sql
+15. CreateFactInternetSales.sql
+16. CreateFactStoreSales.sql
+17. FactUSDExchangeRate.sql
+
 
 
 ### Tables
