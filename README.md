@@ -476,5 +476,21 @@ The illustration below shows the dimension and fact tables arranged as a star sc
 ### Dashboards
 -------------------
 
+The overall dashboard format and feel refers to this design manual
+
+![Design Manual](https://github.com/blumea7/AdventureWorks-Sales-DataMart/blob/53-add-a-readmemd-file/assets/brand-manual.png)
 
 
+Four dashboards were derived from the data mart that was built.
+
+Sales Trend 
+![Design Manual](https://github.com/blumea7/AdventureWorks-Sales-DataMart/blob/53-add-a-readmemd-file/assets/sales-trend.png)
+
+Year Over Year
+![Design Manual](https://github.com/blumea7/AdventureWorks-Sales-DataMart/blob/53-add-a-readmemd-file/assets/year-over-year.png)
+
+Customer Profile
+![Design Manual](https://github.com/blumea7/AdventureWorks-Sales-DataMart/blob/53-add-a-readmemd-file/assets/customer-profile.png)
+
+Store Reseller Profile
+![Design Manual](https://github.com/blumea7/AdventureWorks-Sales-DataMart/blob/53-add-a-readmemd-file/assets/store-reseller.png)
