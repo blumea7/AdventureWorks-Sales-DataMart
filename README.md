@@ -469,8 +469,9 @@ Dimension table containing Adventure Works sales sources, namely internet and st
 
 ### Data Model
 -------------------
-To do...
+The illustration below shows the dimension and fact tables arranged as a star schema 
 
+![Star Schema Model](//assets/star-schema.png"StarSchemaModel")
 
 ### Dashboards
 -------------------
